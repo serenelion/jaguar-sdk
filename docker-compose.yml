@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  # Open Web UI service
+  open-web-ui:
+    image: ghcr.io/open-webui/open-webui:latest
+    container_name: open-web-ui
+    restart: unless-stopped
+    ports:
+      - "3000:8080"
+    environment:
+      - WEBUI_AUTH_ENABLED=true
+      - WEBUI_ADMIN_USERNAME=${WEBUI_ADMIN_USERNAME:-admin}
+      - WEBUI_ADMIN_PASSWORD=${WEBUI_ADMIN_PASSWORD:-password}
+      - WEBUI_TOOL_INTEGRATION_ENABLED=true
+      - WEBUI_TOOL_INTEGRATION_URLS=http://tool-server:8000/openapi.json
+    volumes:
+      - open-web-ui-data:/app/backend/data
+    networks:
+      - ai-network
+    depends_on:
+      - tool-server
+
+  # Custom Tool Server
+  tool-server:
+    build:
+      context: ./tools
+      dockerfile: Dockerfile
+    container_name: ai-tool-server
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - SUPABASE_API_URL=${SUPABASE_API_URL}
+      - SUPABASE_API_KEY=${SUPABASE_API_KEY}
+    volumes:
+      - ./tools:/app
+    networks:
+      - ai-network
+
+networks:
+  ai-network:
+    driver: bridge
+
+volumes:
+  open-web-ui-data:

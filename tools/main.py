@@ -34,29 +34,24 @@ supabase_client = SupabaseClient(
 )
 
 # Models
-class EnvironmentalDataInput(BaseModel):
-    location: str
-    data_type: str
-    value: float
-    timestamp: Optional[str] = None
-    source: Optional[str] = None
-    notes: Optional[str] = None
-
-class EnvironmentalDataOutput(BaseModel):
+class Project(BaseModel):
     id: str
-    location: str
-    data_type: str
-    value: float
-    timestamp: str
-    source: Optional[str] = None
-    notes: Optional[str] = None
-
-class QueryParams(BaseModel):
+    title: str
     location: Optional[str] = None
-    data_type: Optional[str] = None
-    start_date: Optional[str] = None
-    end_date: Optional[str] = None
-    limit: int = 100
+    description: Optional[str] = None
+    property_status: str
+    created_at: str
+    updated_at: Optional[str] = None
+
+class BusinessPlan(BaseModel):
+    id: str
+    project_id: str
+    created_at: str
+    content: Optional[str]
+    update_at: Optional[str] = None
+
+class BusinessPlanUpdate(BaseModel):
+    content: str
 
 # Routes
 @app.get("/")
@@ -64,7 +59,7 @@ async def root():
     return {"message": "Welcome to the AI Open Agents Tool Server"}
 
 @app.get("/health")
-async def health_check():
+async def health_check(operation_id="health_check"):
     # Check if Supabase connection is working
     try:
         supabase_client.health_check()
@@ -72,68 +67,37 @@ async def health_check():
     except Exception as e:
         return {"status": "unhealthy", "services": {"supabase": str(e)}}
 
-# Environmental data endpoints
-@app.post("/environmental-data", response_model=EnvironmentalDataOutput)
-async def create_environmental_data(data: EnvironmentalDataInput):
+# Project endpoints
+@app.get("/projects/{project_id}", response_model=Project, operation_id="get_project")
+async def get_project(project_id: str):
     """
-    Store environmental data in the database.
-    This can include measurements like temperature, air quality, biodiversity counts, etc.
+    Retrieve information about a specific project.
+    """
+    return supabase_client.get_project(project_id)
+
+# Business plan endpoints
+@app.get("/business_plans/{plan_id}", response_model=BusinessPlan, operation_id="get_business_plan")
+async def get_business_plan(plan_id: str):
+    """
+    Retrieve a business plan by ID.
     """
     try:
-        result = supabase_client.store_environmental_data(data.dict())
+        result = supabase_client.get_business_plan(plan_id)
         return result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to store data: {str(e)}")
+        raise HTTPException(status_code=404, detail=f"Business plan not found: {str(e)}")
 
-@app.get("/environmental-data", response_model=List[EnvironmentalDataOutput])
-async def get_environmental_data(
-    location: Optional[str] = None,
-    data_type: Optional[str] = None,
-    start_date: Optional[str] = None,
-    end_date: Optional[str] = None,
-    limit: int = 100
-):
+@app.patch("/business_plans/{plan_id}", response_model=BusinessPlan, operation_id="update_business_plan")
+async def update_business_plan(plan_id: str, updates: BusinessPlanUpdate):
     """
-    Retrieve environmental data based on query parameters.
-    Filter by location, data type, and date range.
+    Update a business plan with new information.
+    Only the provided fields will be updated.
     """
     try:
-        query_params = QueryParams(
-            location=location,
-            data_type=data_type,
-            start_date=start_date,
-            end_date=end_date,
-            limit=limit
-        )
-        results = supabase_client.get_environmental_data(query_params.dict())
-        return results
+        result = supabase_client.update_business_plan(plan_id, updates.dict(exclude_unset=True))
+        return result
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to retrieve data: {str(e)}")
-
-@app.get("/environmental-data/summary")
-async def get_environmental_data_summary(
-    location: Optional[str] = None,
-    data_type: str = None,
-    start_date: Optional[str] = None,
-    end_date: Optional[str] = None
-):
-    """
-    Get summary statistics for environmental data.
-    Returns min, max, average, and count for the specified data type and filters.
-    """
-    if not data_type:
-        raise HTTPException(status_code=400, detail="data_type is required for summary statistics")
-    
-    try:
-        summary = supabase_client.get_environmental_data_summary(
-            data_type=data_type,
-            location=location,
-            start_date=start_date,
-            end_date=end_date
-        )
-        return summary
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to generate summary: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to update business plan: {str(e)}")
 
 # Add more endpoints as needed for NextCloud and WordPress integration
 

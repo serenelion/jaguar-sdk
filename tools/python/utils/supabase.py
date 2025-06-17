@@ -34,137 +34,150 @@ class SupabaseClient:
         """
         try:
             # Simple query to check connection
-            self.client.table("environmental_data").select("id").limit(1).execute()
+            self.client.table("projects").select("id").limit(1).execute()
             return True
         except Exception as e:
             raise Exception(f"Supabase connection failed: {str(e)}")
     
-    def store_environmental_data(self, data: Dict[str, Any]) -> Dict[str, Any]:
+    def get_project(self, project_id: str) -> Dict[str, Any]:
         """
-        Store environmental data in the database.
+        Retrieve project information from the database.
         
         Args:
-            data: Dictionary containing environmental data
-                - location: str
-                - data_type: str
-                - value: float
-                - timestamp: str (optional, defaults to current time)
-                - source: str (optional)
-                - notes: str (optional)
+            project_id: The ID of the project to retrieve
         
         Returns:
-            Dict: The stored data with generated ID
+            Dict: Project information including details, status, and metadata
         """
-        # Set timestamp if not provided
-        if not data.get("timestamp"):
-            data["timestamp"] = datetime.now().isoformat()
-        
         try:
-            result = self.client.table("environmental_data").insert(data).execute()
+            # Query the projects table for the specific project
+            result = self.client.table("projects").select("*").eq("id", project_id).execute()
             
-            # Return the first inserted record
-            if result.data and len(result.data) > 0:
-                return result.data[0]
-            else:
-                raise Exception("No data returned after insert")
+            # Check if project exists
+            if not result.data or len(result.data) == 0:
+                raise Exception(f"Project with ID {project_id} not found")
+
+            # Return the project data
+            return result.data[0]
         except Exception as e:
-            raise Exception(f"Failed to store environmental data: {str(e)}")
+            raise Exception(f"Failed to retrieve project: {str(e)}")
     
-    def get_environmental_data(self, query_params: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def get_business_plan(self, project_id: str) -> Dict[str, Any]:
         """
-        Retrieve environmental data based on query parameters.
+        Retrieve a business plan from the database.
         
         Args:
-            query_params: Dictionary of query parameters
-                - location: str (optional)
-                - data_type: str (optional)
-                - start_date: str (optional)
-                - end_date: str (optional)
-                - limit: int (optional, defaults to 100)
+            project_id: The ID of the business plan to retrieve
         
         Returns:
-            List[Dict]: List of environmental data records
+            Dict: Business plan data including all sections and metadata
         """
         try:
-            query = self.client.table("environmental_data").select("*")
+            # Query the business_plans table for the specific plan
+            result = self.client.table("business_plans").select("*").eq("project_id", project_id).execute()
             
-            # Apply filters if provided
-            if query_params.get("location"):
-                query = query.eq("location", query_params["location"])
-            
-            if query_params.get("data_type"):
-                query = query.eq("data_type", query_params["data_type"])
-            
-            if query_params.get("start_date"):
-                query = query.gte("timestamp", query_params["start_date"])
-            
-            if query_params.get("end_date"):
-                query = query.lte("timestamp", query_params["end_date"])
-            
-            # Apply limit and order by timestamp (newest first)
-            limit = query_params.get("limit", 100)
-            result = query.order("timestamp", desc=True).limit(limit).execute()
-            
-            return result.data
-        except Exception as e:
-            raise Exception(f"Failed to retrieve environmental data: {str(e)}")
-    
-    def get_environmental_data_summary(
-        self, 
-        data_type: str,
-        location: Optional[str] = None,
-        start_date: Optional[str] = None,
-        end_date: Optional[str] = None
-    ) -> Dict[str, Any]:
-        """
-        Get summary statistics for environmental data.
-        
-        Args:
-            data_type: Type of environmental data
-            location: Location filter (optional)
-            start_date: Start date filter (optional)
-            end_date: End date filter (optional)
-        
-        Returns:
-            Dict: Summary statistics including min, max, average, and count
-        """
-        try:
-            # Start building the query
-            query = self.client.table("environmental_data").select("*").eq("data_type", data_type)
-            
-            # Apply additional filters if provided
-            if location:
-                query = query.eq("location", location)
-            
-            if start_date:
-                query = query.gte("timestamp", start_date)
-            
-            if end_date:
-                query = query.lte("timestamp", end_date)
-            
-            # Execute the query
-            result = query.execute()
-            
-            # Calculate summary statistics
-            if not result.data:
-                return {
-                    "data_type": data_type,
-                    "count": 0,
-                    "min": None,
-                    "max": None,
-                    "average": None
+            # Check if business plan exists
+            if not result.data or len(result.data) == 0:
+                # Create default business plan
+                default_content = {
+                    "executiveSummary": {
+                        "overview": "",
+                        "mission": "",
+                        "vision": "",
+                        "objectives": [],
+                        "completed": False
+                    },
+                    "projectDescription": {
+                        "background": "",
+                        "permaculturePrinciples": "",
+                        "keyFeatures": [],
+                        "completed": False
+                    },
+                    "marketAnalysis": {
+                        "targetMarket": "",
+                        "competition": "",
+                        "trends": "",
+                        "opportunities": "",
+                        "completed": False
+                    },
+                    "productsAndServices": {
+                        "description": "",
+                        "pricing": "",
+                        "uniqueSellingPoints": "",
+                        "completed": False
+                    },
+                    "operatingPlan": {
+                        "location": "",
+                        "facilities": "",
+                        "equipment": "",
+                        "timeline": "",
+                        "completed": False
+                    },
+                    "marketingStrategy": {
+                        "overview": "",
+                        "channels": [],
+                        "partnerships": "",
+                        "promotions": "",
+                        "completed": False
+                    },
+                    "financialPlan": {
+                        "startupCosts": "",
+                        "operatingExpenses": "",
+                        "revenueProjections": "",
+                        "fundingSources": "",
+                        "breakEvenAnalysis": "",
+                        "completed": False
+                    },
+                    "implementationTimeline": {
+                        "phases": [],
+                        "milestones": [],
+                        "completed": False
+                    },
+                    "riskAnalysis": {
+                        "potentialRisks": [],
+                        "mitigationStrategies": "",
+                        "contingencyPlans": "",
+                        "completed": False
+                    },
+                    "conclusion": {
+                        "summary": "",
+                        "nextSteps": "",
+                        "completed": False
+                    }
                 }
-            
-            values = [record["value"] for record in result.data]
-            
-            return {
-                "data_type": data_type,
-                "count": len(values),
-                "min": min(values),
-                "max": max(values),
-                "average": sum(values) / len(values)
-            }
+                
+                # Insert the new business plan into the database
+                new_plan = {
+                    "project_id": project_id,
+                    "content": default_content
+                }
+                
+                result = self.client.table("business_plans").insert(new_plan).execute()
+                
+            return result.data[0]
         except Exception as e:
-            raise Exception(f"Failed to generate summary statistics: {str(e)}")
+            raise Exception(f"Failed to retrieve business plan: {str(e)}")
     
-    # Additional methods for other database operations can be added here
+    def update_business_plan(self, plan_id: str, updates: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Update a business plan in the database.
+        
+        Args:
+            plan_id: The ID of the business plan to update
+            content: The new content of the business plan
+        
+        Returns:
+            Dict: The updated business plan data
+        """
+        try:
+            # Update the business plan in the database
+            result = self.client.table("business_plans").update(updates).eq("id", plan_id).execute()
+            
+            # Check if update was successful
+            if not result.data or len(result.data) == 0:
+                raise Exception(f"Business plan with ID {plan_id} not found or update failed")
+            
+            # Return the updated business plan
+            return result.data[0]
+        except Exception as e:
+            raise Exception(f"Failed to update business plan: {str(e)}")

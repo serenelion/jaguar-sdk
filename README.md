@@ -38,9 +38,9 @@ The tool server is built using:
 Our tool server includes various utility modules to interact with external services:
 
 * **Supabase Integration**: 
-  * Located at: `tools/utils/supabase.py`
+  * Located at: `tools/python/utils/supabase.py`
   * Configuration: Requires `SUPABASE_API_URL` and `SUPABASE_API_KEY` environment variables
-  * Purpose: Store and retrieve data from our Supabase database, including user information, project data, and environmental metrics
+  * Purpose: Store and retrieve data from our Supabase database, including project information and business plans
 
 * **NextCloud Integration**: (Coming Soon)
   * Will provide file storage and sharing capabilities

@@ -11,13 +11,15 @@ services:
     environment:
       OPENAI_API_BASE_URL: '${OPEN_ROUTER_API_BASE}'
       OPENAI_API_KEY: '${OPEN_ROUTER_API_KEY}'
+      ENABLE_OLLAMA_API: 'false'
       TOOL_SERVER_CONNECTIONS: |-
         [
           {
-            "url": "http://tool-server:8000/",
+            "url": "http://tool-server:8000",
             "path": "openapi.json",
             "auth_type": "bearer",
-            "key": "${TOOL_SERVER_API_KEY}"
+            "key": "${TOOL_SERVER_API_KEY}",
+            "config": {"enable": true}
           }
         ]
     volumes:

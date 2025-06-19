@@ -28,6 +28,12 @@ services:
       - ai-network
     depends_on:
       - tool-server
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.open-web-ui.rule=Host(`ai.thespatialnetwork.net`)"
+      - "traefik.http.routers.open-web-ui.entrypoints=websecure"
+      - "traefik.http.routers.open-web-ui.tls.certResolver=letsencrypt"
+      - "traefik.http.services.open-web-ui.loadbalancer.server.port=8080"
 
   # Custom Tool Server
   tool-server:

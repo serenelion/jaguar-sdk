@@ -26,6 +26,7 @@ services:
       - open-web-ui-data:/app/backend/data
     networks:
       - ai-network
+      - dokploy-network
     depends_on:
       - tool-server
     labels:
@@ -52,10 +53,13 @@ services:
       - ./tools:/app
     networks:
       - ai-network
+      - dokploy-network
 
 networks:
   ai-network:
     driver: bridge
+  dokploy-network:
+    external: true
 
 volumes:
   open-web-ui-data:

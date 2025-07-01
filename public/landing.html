@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaguar SDK - Open Source AGI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(to right, #a855f7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-black text-white">
+    <!-- Navigation -->
+    <nav class="flex items-center justify-between p-6 max-w-7xl mx-auto">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center">
+                <span class="text-white font-bold">J</span>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold">JAGUAR</h1>
+                <p class="text-xs text-gray-400 uppercase tracking-wide">Open Source AGI</p>
+            </div>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-8">
+            <a href="#features" class="text-gray-300 hover:text-white transition-colors">Agents</a>
+            <a href="#features" class="text-gray-300 hover:text-white transition-colors">Teams</a>
+            <a href="#features" class="text-gray-300 hover:text-white transition-colors">Marketplace</a>
+            <a href="#features" class="text-gray-300 hover:text-white transition-colors">Nature</a>
+            <a href="#features" class="text-gray-300 hover:text-white transition-colors">Learn</a>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <a href="/login" class="text-gray-300 hover:text-white transition-colors">Sign In</a>
+            <button class="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-all">
+                Get Started
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="max-w-7xl mx-auto px-6 pt-20 pb-32">
+        <div class="text-center space-y-8">
+            <!-- Badge -->
+            <div class="inline-flex items-center space-x-2 bg-purple-500/20 border border-purple-500/30 rounded-full px-4 py-2">
+                <span class="text-purple-300 text-sm font-medium">World's First Open Source AGI</span>
+            </div>
+
+            <!-- Main Headline -->
+            <div class="space-y-4">
+                <h1 class="text-6xl md:text-7xl font-bold leading-tight">Manifest Your Dreams</h1>
+                <h1 class="text-6xl md:text-7xl font-bold leading-tight">
+                    with <span class="gradient-text">AI Agents</span>
+                </h1>
+            </div>
+
+            <!-- Subtitle -->
+            <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                Turn your wildest ideas into reality. Build, deploy, and monetize
+                intelligent agents that work together to automate your world.
+            </p>
+
+            <!-- Credibility Indicators -->
+            <div class="flex items-center justify-center space-x-8 text-sm text-gray-400">
+                <div class="flex items-center space-x-2">
+                    <span>⚡</span>
+                    <span>Powered by n8n</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span>🌐</span>
+                    <span>OpenWebUI Backend</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span>🔗</span>
+                    <span>OpenRouter Models</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dream Input Section -->
+        <div class="max-w-4xl mx-auto mt-16 space-y-8">
+            <div class="relative">
+                <textarea
+                    id="dreamInput"
+                    placeholder="Describe your dream... I'll help you build the agents to make it happen"
+                    class="w-full min-h-[120px] bg-gray-900/50 border border-gray-700 text-white placeholder:text-gray-400 text-lg p-6 rounded-2xl resize-none focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                ></textarea>
+                <button
+                    onclick="handleSubmit()"
+                    class="absolute bottom-4 right-4 bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 p-3 rounded-xl transition-all"
+                >
+                    →
+                </button>
+            </div>
+
+            <!-- Dream Starters -->
+            <div class="space-y-4">
+                <p class="text-center text-gray-400">Or try one of these dream starters:</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <button onclick="setDreamStarter(this)" class="text-left p-4 bg-gray-900/30 border border-gray-700 rounded-xl hover:border-purple-500/50 hover:bg-gray-900/50 transition-all duration-200 text-sm text-gray-300 hover:text-white">
+                        Create an agent that automates my morning routine with weather and calendar updates
+                    </button>
+                    <button onclick="setDreamStarter(this)" class="text-left p-4 bg-gray-900/30 border border-gray-700 rounded-xl hover:border-purple-500/50 hover:bg-gray-900/50 transition-all duration-200 text-sm text-gray-300 hover:text-white">
+                        Build a content creation team that writes and publishes blog posts
+                    </button>
+                    <button onclick="setDreamStarter(this)" class="text-left p-4 bg-gray-900/30 border border-gray-700 rounded-xl hover:border-purple-500/50 hover:bg-gray-900/50 transition-all duration-200 text-sm text-gray-300 hover:text-white">
+                        Design an agent that monitors my business metrics and sends alerts
+                    </button>
+                    <button onclick="setDreamStarter(this)" class="text-left p-4 bg-gray-900/30 border border-gray-700 rounded-xl hover:border-purple-500/50 hover:bg-gray-900/50 transition-all duration-200 text-sm text-gray-300 hover:text-white">
+                        Create a research assistant that finds grants for regenerative agriculture
+                    </button>
+                    <button onclick="setDreamStarter(this)" class="text-left p-4 bg-gray-900/30 border border-gray-700 rounded-xl hover:border-purple-500/50 hover:bg-gray-900/50 transition-all duration-200 text-sm text-gray-300 hover:text-white">
+                        Build an agent that manages my social media presence across platforms
+                    </button>
+                    <button onclick="setDreamStarter(this)" class="text-left p-4 bg-gray-900/30 border border-gray-700 rounded-xl hover:border-purple-500/50 hover:bg-gray-900/50 transition-all duration-200 text-sm text-gray-300 hover:text-white">
+                        Design a customer support agent that handles common inquiries
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div id="features" class="max-w-7xl mx-auto px-6 py-20">
+        <div class="text-center space-y-4 mb-16">
+            <h2 class="text-4xl md:text-5xl font-bold">The Complete AI Agent Platform</h2>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                Build, deploy, and monetize intelligent agent teams that work
+                together to automate your workflows and align profit with purpose.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="p-6 bg-gray-900/30 border border-gray-700 rounded-2xl hover:border-purple-500/50 hover:bg-gray-900/50 transition-all duration-200 group">
+                <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">🤖</div>
+                <h3 class="text-xl font-bold mb-2">Agent Creation</h3>
+                <p class="text-gray-300">Build custom agents with specific capabilities and personalities</p>
+            </div>
+            <div class="p-6 bg-gray-900/30 border border-gray-700 rounded-2xl hover:border-purple-500/50 hover:bg-gray-900/50 transition-all duration-200 group">
+                <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">👥</div>
+                <h3 class="text-xl font-bold mb-2">Team Collaboration</h3>
+                <p class="text-gray-300">Organize agents into teams that work together on complex tasks</p>
+            </div>
+            <div class="p-6 bg-gray-900/30 border border-gray-700 rounded-2xl hover:border-purple-500/50 hover:bg-gray-900/50 transition-all duration-200 group">
+                <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">⚡</div>
+                <h3 class="text-xl font-bold mb-2">Workflow Automation</h3>
+                <p class="text-gray-300">Connect agents to n8n workflows for powerful automation</p>
+            </div>
+            <div class="p-6 bg-gray-900/30 border border-gray-700 rounded-2xl hover:border-purple-500/50 hover:bg-gray-900/50 transition-all duration-200 group">
+                <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">💰</div>
+                <h3 class="text-xl font-bold mb-2">Monetization</h3>
+                <p class="text-gray-300">Deploy and monetize your agents on the Spatial Network</p>
+            </div>
+            <div class="p-6 bg-gray-900/30 border border-gray-700 rounded-2xl hover:border-purple-500/50 hover:bg-gray-900/50 transition-all duration-200 group">
+                <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">🌐</div>
+                <h3 class="text-xl font-bold mb-2">Open Source</h3>
+                <p class="text-gray-300">Fully open source platform that you can self-host or extend</p>
+            </div>
+            <div class="p-6 bg-gray-900/30 border border-gray-700 rounded-2xl hover:border-purple-500/50 hover:bg-gray-900/50 transition-all duration-200 group">
+                <div class="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">🔗</div>
+                <h3 class="text-xl font-bold mb-2">API Integrations</h3>
+                <p class="text-gray-300">Connect your agents to any API or service with our integration capabilities</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="max-w-4xl mx-auto px-6 py-20 text-center">
+        <div class="space-y-6">
+            <h2 class="text-4xl md:text-5xl font-bold">Start building above to create your first AI agent</h2>
+            <p class="text-xl text-gray-300">No signup required to try</p>
+            <button class="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white px-8 py-4 rounded-xl text-lg font-medium transition-all">
+                Start Building Now
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">J</span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold">JAGUAR SDK</h3>
+                        <p class="text-xs text-gray-400">Open Source AGI</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm">© 2025 Jaguar SDK. Open source and built for the future.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function setDreamStarter(button) {
+            document.getElementById('dreamInput').value = button.textContent.trim();
+        }
+
+        function handleSubmit() {
+            const dreamText = document.getElementById('dreamInput').value.trim();
+            if (dreamText) {
+                sessionStorage.setItem('landingInput', dreamText);
+                window.location.href = '/dashboard/chat?from=landing';
+            }
+        }
+    </script>
+</body>
+</html>

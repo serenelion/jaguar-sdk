@@ -1,62 +1,243 @@
-<a href="https://chat.vercel.ai/">
-  <img alt="Next.js 14 and App Router-ready AI chatbot." src="app/(chat)/opengraph-image.png">
-  <h1 align="center">Chat SDK</h1>
+<a href="https://jaguar-sdk.dev">
+  <img alt="Jaguar SDK - World's First Open Source AGI Platform" src="app/(chat)/opengraph-image.png">
+  <h1 align="center">🐆 Jaguar SDK</h1>
 </a>
 
 <p align="center">
-    Chat SDK is a free, open-source template built with Next.js and the AI SDK that helps you quickly build powerful chatbot applications.
+    <strong>World's First Open Source AGI Platform</strong><br/>
+    Manifest your dreams with AI agents that build the new earth
 </p>
 
 <p align="center">
-  <a href="https://chat-sdk.dev"><strong>Read Docs</strong></a> ·
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#model-providers"><strong>Model Providers</strong></a> ·
-  <a href="#deploy-your-own"><strong>Deploy Your Own</strong></a> ·
-  <a href="#running-locally"><strong>Running locally</strong></a>
+  <a href="#-vision"><strong>Vision</strong></a> ·
+  <a href="#-features"><strong>Features</strong></a> ·
+  <a href="#-quick-start"><strong>Quick Start</strong></a> ·
+  <a href="#-architecture"><strong>Architecture</strong></a> ·
+  <a href="#-community"><strong>Join the Movement</strong></a>
 </p>
-<br/>
 
-## Features
+<div align="center">
 
-- [Next.js](https://nextjs.org) App Router
-  - Advanced routing for seamless navigation and performance
-  - React Server Components (RSCs) and Server Actions for server-side rendering and increased performance
-- [AI SDK](https://sdk.vercel.ai/docs)
-  - Unified API for generating text, structured objects, and tool calls with LLMs
-  - Hooks for building dynamic chat and generative user interfaces
-  - Supports xAI (default), OpenAI, Fireworks, and other model providers
-- [shadcn/ui](https://ui.shadcn.com)
-  - Styling with [Tailwind CSS](https://tailwindcss.com)
-  - Component primitives from [Radix UI](https://radix-ui.com) for accessibility and flexibility
-- Data Persistence
-  - [Neon Serverless Postgres](https://vercel.com/marketplace/neon) for saving chat history and user data
-  - [Vercel Blob](https://vercel.com/storage/blob) for efficient file storage
-- [Auth.js](https://authjs.dev)
-  - Simple and secure authentication
+[![Open Source](https://img.shields.io/badge/Open%20Source-New%20Earth-gold?style=for-the-badge)](https://github.com/serenelion/jaguar-sdk)
+[![Built with Next.js](https://img.shields.io/badge/Built%20with-Next.js%2015-black?style=for-the-badge&logo=next.js)](https://nextjs.org)
+[![Powered by AI SDK](https://img.shields.io/badge/Powered%20by-AI%20SDK-blue?style=for-the-badge)](https://sdk.vercel.ai)
+[![Spatial Network](https://img.shields.io/badge/Spatial-Network-green?style=for-the-badge)](https://thespatialnetwork.net)
 
-## Model Providers
+</div>
 
-This template ships with [xAI](https://x.ai) `grok-2-1212` as the default chat model. However, with the [AI SDK](https://sdk.vercel.ai/docs), you can switch LLM providers to [OpenAI](https://openai.com), [Anthropic](https://anthropic.com), [Cohere](https://cohere.com/), and [many more](https://sdk.vercel.ai/providers/ai-sdk-providers) with just a few lines of code.
+---
 
-## Deploy Your Own
+## 🌍 Vision
 
-You can deploy your own version of the Next.js AI Chatbot to Vercel with one click:
+**Jaguar SDK is more than software—it's a movement.**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fai-chatbot&env=AUTH_SECRET&envDescription=Learn+more+about+how+to+get+the+API+Keys+for+the+application&envLink=https%3A%2F%2Fgithub.com%2Fvercel%2Fai-chatbot%2Fblob%2Fmain%2F.env.example&demo-title=AI+Chatbot&demo-description=An+Open-Source+AI+Chatbot+Template+Built+With+Next.js+and+the+AI+SDK+by+Vercel.&demo-url=https%3A%2F%2Fchat.vercel.ai&products=%5B%7B%22type%22%3A%22integration%22%2C%22protocol%22%3A%22ai%22%2C%22productSlug%22%3A%22grok%22%2C%22integrationSlug%22%3A%22xai%22%7D%2C%7B%22type%22%3A%22integration%22%2C%22protocol%22%3A%22storage%22%2C%22productSlug%22%3A%22neon%22%2C%22integrationSlug%22%3A%22neon%22%7D%2C%7B%22type%22%3A%22integration%22%2C%22protocol%22%3A%22storage%22%2C%22productSlug%22%3A%22upstash-kv%22%2C%22integrationSlug%22%3A%22upstash%22%7D%2C%7B%22type%22%3A%22blob%22%7D%5D)
+We're building the world's first open source AGI platform that empowers conscious creators to manifest their dreams through intelligent AI agents. Our mission is to democratize artificial general intelligence and align profit with purpose, creating technology that serves both humanity and the planet.
 
-## Running locally
+### The New Earth Paradigm
 
-You will need to use the environment variables [defined in `.env.example`](.env.example) to run Next.js AI Chatbot. It's recommended you use [Vercel Environment Variables](https://vercel.com/docs/projects/environment-variables) for this, but a `.env` file is all that is necessary.
+- **🌱 Regenerative by Design**: Technology that heals rather than harms
+- **🤝 Community-Driven**: Open source, collaborative, and accessible to all
+- **💡 Dream Manifestation**: Turn your wildest ideas into reality with AI agents
+- **🌐 Decentralized Intelligence**: Distribute AGI capabilities across the Spatial Network
+- **💰 Conscious Commerce**: Monetize your agents while creating positive impact
 
-> Note: You should not commit your `.env` file or it will expose secrets that will allow others to control access to your various AI and authentication provider accounts.
+---
 
-1. Install Vercel CLI: `npm i -g vercel`
-2. Link local instance with Vercel and GitHub accounts (creates `.vercel` directory): `vercel link`
-3. Download your environment variables: `vercel env pull`
+## ✨ Features
+
+### 🤖 **Agent Creation & Management**
+
+Build custom AI agents with specific capabilities, personalities, and purposes. From simple automation to complex reasoning, create agents that work for you.
+
+### 👥 **Team Collaboration**
+
+Organize agents into intelligent teams that collaborate on complex tasks. Watch as your AI workforce coordinates to achieve ambitious goals.
+
+### ⚡ **Workflow Automation**
+
+Seamlessly integrate with n8n workflows for powerful automation. Connect your agents to any API, service, or system.
+
+### 🏪 **Agent Marketplace**
+
+Deploy, discover, and monetize AI agents on the Spatial Network. Build a sustainable business around your intelligent creations.
+
+### 🌿 **Nature-Aligned Development**
+
+Special tools and templates for regenerative projects, environmental monitoring, and sustainable technology development.
+
+### 📚 **Knowledge Management**
+
+Intelligent document processing, search, and knowledge synthesis powered by your personal Jaguar assistant.
+
+### 🎨 **Beautiful, Modular Interface**
+
+- **Landing Experience**: Describe your dream and watch it come to life
+- **Dashboard Shell**: Persistent sidebar with all modules
+- **Chat Interface**: Full-featured AI conversation with streaming responses
+- **Agent Builder**: Visual tools for creating and configuring agents
+- **Team Management**: Organize and orchestrate agent collaborations
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+ and pnpm
+- Supabase account (database)
+- xAI API key (AI models)
+
+### 1. Clone & Install
 
 ```bash
+git clone https://github.com/serenelion/jaguar-sdk.git
+cd jaguar-sdk
 pnpm install
+```
+
+### 2. Environment Setup
+
+Copy `.env.example` to `.env` and configure:
+
+```env
+# Database (Required)
+POSTGRES_URL=postgresql://postgres:password@db.your-ref.supabase.co:5432/postgres
+
+# AI Models (Required)
+XAI_API_KEY=xai-your-api-key-here
+
+# Optional Enhancements
+BLOB_READ_WRITE_TOKEN=vercel_blob_rw_your-token
+REDIS_URL=redis://your-redis-url
+```
+
+### 3. Database Setup
+
+```bash
+pnpm run db:migrate
+```
+
+### 4. Launch
+
+```bash
 pnpm dev
 ```
 
-Your app template should now be running on [localhost:3000](http://localhost:3000).
+Visit [localhost:3000](http://localhost:3000) and start manifesting your dreams! 🎉
+
+> 📖 **Need detailed setup help?** Check out our comprehensive [SETUP.md](SETUP.md) guide.
+
+---
+
+## 🏗️ Architecture
+
+### Tech Stack
+
+- **Frontend**: Next.js 15 with App Router, TypeScript, TailwindCSS
+- **AI Layer**: AI SDK with xAI, OpenAI, Anthropic support
+- **Database**: Supabase PostgreSQL with Drizzle ORM
+- **Authentication**: NextAuth.js with GitHub & Magic Link
+- **Storage**: Vercel Blob for file management
+- **Caching**: Redis for performance optimization
+- **Automation**: n8n workflow integration
+- **Network**: Spatial Network connectivity
+
+### Core Modules
+
+```
+jaguar-sdk/
+├── app/
+│   ├── (landing)/          # Dream input & onboarding
+│   └── dashboard/          # Modular platform
+│       ├── chat/           # AI conversation interface
+│       ├── agents/         # Agent creation & management
+│       ├── teams/          # Team collaboration tools
+│       ├── marketplace/    # Agent discovery & monetization
+│       ├── nature/         # Regenerative project tools
+│       └── knowledge/      # Document & knowledge management
+├── components/
+│   ├── jaguar-sidebar.tsx  # Persistent navigation
+│   └── ui/                 # Design system components
+└── lib/
+    ├── ai/                 # AI SDK configuration
+    ├── db/                 # Database schema & queries
+    └── spatial/            # Spatial Network integration
+```
+
+---
+
+## 🌟 Join the Movement
+
+### For Conscious Creators
+
+- **Build**: Create AI agents that align with your values
+- **Share**: Contribute to the open source ecosystem
+- **Earn**: Monetize your agents on the Spatial Network
+- **Impact**: Use technology to heal the world
+
+### For Developers
+
+- **Contribute**: Help build the future of open source AGI
+- **Learn**: Master cutting-edge AI development techniques
+- **Connect**: Join a community of conscious technologists
+- **Grow**: Advance your career in the AI revolution
+
+### Ways to Contribute
+
+1. **🐛 Report Issues**: Help us improve by reporting bugs
+2. **💡 Feature Requests**: Suggest new capabilities
+3. **🔧 Code Contributions**: Submit PRs for fixes and features
+4. **📖 Documentation**: Improve guides and tutorials
+5. **🎨 Design**: Enhance the user experience
+6. **🌍 Translation**: Make Jaguar accessible globally
+
+---
+
+## 📚 Documentation
+
+- **[Setup Guide](SETUP.md)**: Complete installation instructions
+- **[System Prompt](docs/system_prompt.md)**: Core AI behavior configuration
+- **[API Reference](docs/api.md)**: Integration documentation
+- **[Agent Development](docs/agents.md)**: Building custom agents
+- **[Spatial Network](docs/spatial.md)**: Network integration guide
+
+---
+
+## 🤝 Community
+
+- **Discord**: [Join our community](https://discord.gg/jaguar-sdk)
+- **Twitter**: [@JaguarSDK](https://twitter.com/JaguarSDK)
+- **GitHub**: [Discussions](https://github.com/serenelion/jaguar-sdk/discussions)
+- **Website**: [jaguar-sdk.dev](https://jaguar-sdk.dev)
+
+---
+
+## 📄 License
+
+Jaguar SDK is open source software licensed under the [MIT License](LICENSE).
+
+---
+
+## 🙏 Acknowledgments
+
+Built with love by the conscious technology community. Special thanks to:
+
+- **Vercel** for the AI SDK and deployment platform
+- **Supabase** for the backend infrastructure
+- **The Spatial Network** for the vision of decentralized intelligence
+- **All contributors** who believe in technology for the new earth
+
+---
+
+<div align="center">
+
+**Ready to manifest your dreams?**
+
+[🚀 **Get Started**](https://github.com/serenelion/jaguar-sdk) · [💬 **Join Discord**](https://discord.gg/jaguar-sdk) · [🌐 **Visit Website**](https://jaguar-sdk.dev)
+
+---
+
+_"The future belongs to those who believe in the beauty of their dreams."_  
+**— Eleanor Roosevelt**
+
+</div>

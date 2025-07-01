@@ -1,7 +1,16 @@
 {
-  "name": "ai-chatbot",
-  "version": "3.0.23",
-  "private": true,
+  "name": "jaguar-sdk",
+  "version": "1.0.0",
+  "description": "World's first open source AGI platform - Manifest your dreams with AI agents that build the new earth",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/serenelion/jaguar-sdk.git"
+  },
+  "homepage": "https://jaguar-sdk.dev",
+  "keywords": ["ai", "agi", "agents", "open-source", "spatial-network", "new-earth", "automation", "nextjs"],
+  "author": "Serene Lion <hello@jaguar-sdk.dev>",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev --turbo",
     "build": "tsx lib/db/migrate && next build",
@@ -16,6 +25,7 @@
     "db:pull": "drizzle-kit pull",
     "db:check": "drizzle-kit check",
     "db:up": "drizzle-kit up",
+    "env:check": "node scripts/check-env.js",
     "test": "export PLAYWRIGHT=True && pnpm exec playwright test"
   },
   "dependencies": {

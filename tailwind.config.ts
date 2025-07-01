@@ -12,6 +12,8 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-geist)'],
         mono: ['var(--font-geist-mono)'],
+        headline: ['var(--font-headline)', 'Lato', 'sans-serif'],
+        body: ['var(--font-body)', 'Open Sans', 'sans-serif'],
       },
       screens: {
         'toast-mobile': '600px',
@@ -71,6 +73,15 @@ const config: Config = {
           'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
+        },
+        jaguar: {
+          black: 'var(--jaguar-black)',
+          gold: 'rgb(var(--jaguar-gold))',
+          'gold-hover': 'rgba(217, 181, 113, 0.2)',
+          'gold-glow': 'rgba(217, 181, 113, 0.3)',
+          card: 'var(--jaguar-card)',
+          'text-primary': 'var(--jaguar-text-primary)',
+          'text-secondary': 'var(--jaguar-text-secondary)',
         },
       },
     },

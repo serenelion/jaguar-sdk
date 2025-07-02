@@ -38,7 +38,7 @@ We're building the world's first open source AGI platform that empowers consciou
 - **🌱 Regenerative by Design**: Technology that heals rather than harms
 - **🤝 Community-Driven**: Open source, collaborative, and accessible to all
 - **💡 Dream Manifestation**: Turn your wildest ideas into reality with AI agents
-- **🌐 Decentralized Intelligence**: Distribute AGI capabilities across the Spatial Network
+- **🌐 Decentralized Intelligence**: Distribute place based AGI capabilities through The Spatial Network
 - **💰 Conscious Commerce**: Monetize your agents while creating positive impact
 
 ---

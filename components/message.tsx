@@ -252,31 +252,58 @@ export const PreviewMessage = memo(
 );
 
 export const ThinkingMessage = () => {
-  const role = 'assistant';
-
   return (
     <motion.div
       data-testid="message-assistant-loading"
-      className="w-full mx-auto max-w-3xl px-4 group/message min-h-96"
+      className="w-full mx-auto max-w-3xl px-4 group/message min-h-24"
       initial={{ y: 5, opacity: 0 }}
-      animate={{ y: 0, opacity: 1, transition: { delay: 1 } }}
-      data-role={role}
+      animate={{ y: 0, opacity: 1, transition: { delay: 0.3 } }}
+      data-role="assistant"
     >
-      <div
-        className={cx(
-          'flex gap-4 group-data-[role=user]/message:px-3 w-full group-data-[role=user]/message:w-fit group-data-[role=user]/message:ml-auto group-data-[role=user]/message:max-w-2xl group-data-[role=user]/message:py-2 rounded-xl',
-          {
-            'group-data-[role=user]/message:bg-muted': true,
-          },
-        )}
-      >
-        <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
-          <SparklesIcon size={14} />
+      <div className="flex gap-4 w-full">
+        {/* Avatar with gold pulse */}
+        <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-jaguar-gold/30 bg-background animate-gold-pulse">
+          <div className="translate-y-px text-jaguar-gold">
+            <SparklesIcon size={14} />
+          </div>
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
-          <div className="flex flex-col gap-4 text-muted-foreground">
-            Hmm...
+        {/* Loading content */}
+        <div className="flex flex-col gap-4 w-full">
+          <div className="flex items-center gap-3 text-jaguar-gold">
+            <div className="flex items-center space-x-1">
+              {[0, 1, 2].map((index) => (
+                <div
+                  key={`typing-dot-${index}`}
+                  className="w-1.5 h-1.5 rounded-full bg-jaguar-gold animate-typing-dots"
+                  style={{
+                    animationDelay: `${index * 0.2}s`,
+                  }}
+                />
+              ))}
+            </div>
+            <span className="text-sm font-medium animate-pulse">
+              AI is thinking...
+            </span>
+          </div>
+
+          {/* Animated loading bars */}
+          <div className="space-y-2 max-w-md">
+            <div className="h-3 bg-jaguar-indigo/10 rounded-full overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-jaguar-gold to-jaguar-indigo animate-gold-to-indigo rounded-full w-3/4" />
+            </div>
+            <div className="h-3 bg-jaguar-indigo/10 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-jaguar-gold to-jaguar-indigo animate-gold-to-indigo rounded-full w-1/2"
+                style={{ animationDelay: '0.5s' }}
+              />
+            </div>
+            <div className="h-3 bg-jaguar-indigo/10 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-jaguar-gold to-jaguar-indigo animate-gold-to-indigo rounded-full w-2/3"
+                style={{ animationDelay: '1s' }}
+              />
+            </div>
           </div>
         </div>
       </div>

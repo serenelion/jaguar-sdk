@@ -35,9 +35,98 @@
 }
 
 @layer utilities {
-    .text-balance {
-        text-wrap: balance;
-    }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Jaguar Loading Animations */
+@keyframes goldPulse {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(217, 181, 113, 0.7);
+  }
+  50% { 
+    opacity: 0.8; 
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(217, 181, 113, 0);
+  }
+}
+
+@keyframes indigoShimmer {
+  0% { 
+    background-position: -200px 0; 
+  }
+  100% { 
+    background-position: calc(200px + 100%) 0; 
+  }
+}
+
+@keyframes goldToIndigo {
+  0% { 
+    background-position: 0% 50%; 
+  }
+  50% { 
+    background-position: 100% 50%; 
+  }
+  100% { 
+    background-position: 0% 50%; 
+  }
+}
+
+@keyframes typingDots {
+  0%, 20% { 
+    opacity: 0; 
+    transform: scale(0.8);
+  }
+  50% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  80%, 100% { 
+    opacity: 0; 
+    transform: scale(0.8);
+  }
+}
+
+.animate-gold-pulse {
+  animation: goldPulse 2s ease-in-out infinite;
+}
+
+.animate-indigo-shimmer {
+  animation: indigoShimmer 2s linear infinite;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(79, 70, 229, 0.1),
+    transparent
+  );
+  background-size: 200px 100%;
+}
+
+.animate-gold-to-indigo {
+  animation: goldToIndigo 3s ease-in-out infinite;
+  background: linear-gradient(
+    -45deg,
+    rgb(217, 181, 113),
+    rgb(230, 200, 140),
+    #4F46E5,
+    #6366F1
+  );
+  background-size: 400% 400%;
+}
+
+.animate-typing-dots {
+  animation: typingDots 1.4s ease-in-out infinite;
+}
+
+.animate-typing-dots:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.animate-typing-dots:nth-child(3) {
+  animation-delay: 0.4s;
 }
 
 @layer base {
@@ -307,5 +396,36 @@
         @apply hover:bg-[rgba(217,181,113,0.1)] hover:shadow-[0_0_20px_rgba(217,181,113,0.2)];
         @apply transition-all duration-200;
         font-family: var(--font-headline);
+    }
+
+    /* Royal Indigo Button Classes */
+    .jaguar-button-indigo {
+        @apply bg-jaguar-indigo text-white font-bold uppercase;
+        @apply h-12 px-6 rounded-xl tracking-wide;
+        @apply hover:bg-jaguar-indigo-light hover:shadow-[0_0_20px_rgba(79,70,229,0.3)];
+        @apply transition-all duration-200;
+        font-family: var(--font-headline);
+    }
+
+    .jaguar-button-indigo-outline {
+        @apply border-2 border-jaguar-indigo text-jaguar-indigo bg-transparent;
+        @apply font-bold uppercase h-12 px-6 rounded-xl tracking-wide;
+        @apply hover:bg-jaguar-indigo-hover hover:shadow-[0_0_20px_rgba(79,70,229,0.2)];
+        @apply transition-all duration-200;
+        font-family: var(--font-headline);
+    }
+
+    /* Royal Indigo Card */
+    .jaguar-card-indigo {
+        background: var(--jaguar-card);
+        border-radius: var(--jaguar-radius);
+        padding: 24px;
+        border: 1px solid rgba(79, 70, 229, 0.2);
+        transition: var(--jaguar-transition);
+    }
+
+    .jaguar-card-indigo:hover {
+        box-shadow: 0 0 20px rgba(79, 70, 229, 0.1);
+        border-color: rgba(79, 70, 229, 0.4);
     }
 }

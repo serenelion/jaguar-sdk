@@ -9,11 +9,12 @@ import {
   gt,
   gte,
   inArray,
+  isNull,
   lt,
   type SQL,
 } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { drizzle } from 'drizzle-orm/better-sqlite3';
+import Database from 'better-sqlite3';
 
 import {
   user,
@@ -27,7 +28,8 @@ import {
   type DBMessage,
   type Chat,
   stream,
-} from './schema';
+  anonymousSession,
+} from './schema-sqlite';
 import type { ArtifactKind } from '@/components/artifact';
 import { generateUUID } from '../utils';
 import { generateHashedPassword } from './utils';
@@ -39,8 +41,9 @@ import { ChatSDKError } from '../errors';
 // https://authjs.dev/reference/adapter/drizzle
 
 // biome-ignore lint: Forbidden non-null assertion.
-const client = postgres(process.env.POSTGRES_URL!);
-const db = drizzle(client);
+const dbPath = process.env.POSTGRES_URL!.replace('file:', '');
+const sqlite = new Database(dbPath);
+const db = drizzle(sqlite);
 
 export async function getUser(email: string): Promise<Array<User>> {
   try {
@@ -533,6 +536,92 @@ export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
     throw new ChatSDKError(
       'bad_request:database',
       'Failed to get stream ids by chat id',
+    );
+  }
+}
+
+// Anonymous Session Functions
+export async function saveAnonymousSession({
+  id,
+  initialPrompt,
+  sessionData,
+}: {
+  id: string;
+  initialPrompt: string;
+  sessionData?: any;
+}) {
+  try {
+    return await db.insert(anonymousSession).values({
+      id,
+      initialPrompt,
+      sessionData: sessionData ? JSON.stringify(sessionData) : null,
+      createdAt: new Date(),
+    });
+  } catch (error) {
+    throw new ChatSDKError(
+      'bad_request:database',
+      'Failed to save anonymous session',
+    );
+  }
+}
+
+export async function getAnonymousSession({ id }: { id: string }) {
+  try {
+    const [session] = await db
+      .select()
+      .from(anonymousSession)
+      .where(eq(anonymousSession.id, id));
+    return session;
+  } catch (error) {
+    throw new ChatSDKError(
+      'bad_request:database',
+      'Failed to get anonymous session',
+    );
+  }
+}
+
+export async function convertAnonymousSession({
+  sessionId,
+  userId,
+  chatId,
+}: {
+  sessionId: string;
+  userId: string;
+  chatId: string;
+}) {
+  try {
+    return await db
+      .update(anonymousSession)
+      .set({
+        convertedUserId: userId,
+        convertedAt: new Date(),
+        convertedChatId: chatId,
+      })
+      .where(eq(anonymousSession.id, sessionId));
+  } catch (error) {
+    throw new ChatSDKError(
+      'bad_request:database',
+      'Failed to convert anonymous session',
+    );
+  }
+}
+
+export async function cleanupOldAnonymousSessions() {
+  try {
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+    return await db
+      .delete(anonymousSession)
+      .where(
+        and(
+          lt(anonymousSession.createdAt, twentyFourHoursAgo),
+          isNull(anonymousSession.convertedUserId),
+        ),
+      );
+  } catch (error) {
+    throw new ChatSDKError(
+      'bad_request:database',
+      'Failed to cleanup old anonymous sessions',
     );
   }
 }

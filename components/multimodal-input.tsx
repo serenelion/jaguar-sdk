@@ -20,6 +20,7 @@ import { ArrowUpIcon, PaperclipIcon, StopIcon } from './icons';
 import { PreviewAttachment } from './preview-attachment';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
+import { JaguarLoadingSpinner } from './ui/jaguar-loading-spinner';
 import { SuggestedActions } from './suggested-actions';
 import equal from 'fast-deep-equal';
 import type { UseChatHelpers } from '@ai-sdk/react';
@@ -303,6 +304,7 @@ function PureMultimodalInput({
             input={input}
             submitForm={submitForm}
             uploadQueue={uploadQueue}
+            status={status}
           />
         )}
       </div>
@@ -376,11 +378,15 @@ function PureSendButton({
   submitForm,
   input,
   uploadQueue,
+  status,
 }: {
   submitForm: () => void;
   input: string;
   uploadQueue: Array<string>;
+  status?: UseChatHelpers['status'];
 }) {
+  const isLoading = status === 'submitted' || uploadQueue.length > 0;
+
   return (
     <Button
       data-testid="send-button"
@@ -391,7 +397,11 @@ function PureSendButton({
       }}
       disabled={input.length === 0 || uploadQueue.length > 0}
     >
-      <ArrowUpIcon size={14} />
+      {isLoading ? (
+        <JaguarLoadingSpinner variant="primary" size="sm" />
+      ) : (
+        <ArrowUpIcon size={14} />
+      )}
     </Button>
   );
 }

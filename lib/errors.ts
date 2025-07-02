@@ -15,7 +15,8 @@ export type Surface =
   | 'history'
   | 'vote'
   | 'document'
-  | 'suggestions';
+  | 'suggestions'
+  | 'session';
 
 export type ErrorCode = `${ErrorType}:${Surface}`;
 
@@ -31,6 +32,7 @@ export const visibilityBySurface: Record<Surface, ErrorVisibility> = {
   vote: 'response',
   document: 'response',
   suggestions: 'response',
+  session: 'response',
 };
 
 export class ChatSDKError extends Error {
@@ -106,6 +108,13 @@ export function getMessageByErrorCode(errorCode: ErrorCode): string {
       return 'You need to sign in to view this document. Please sign in and try again.';
     case 'bad_request:document':
       return 'The request to create or update the document was invalid. Please check your input and try again.';
+
+    case 'not_found:session':
+      return 'The requested session was not found. Please sign in again.';
+    case 'bad_request:session':
+      return 'The session request was invalid. Please check your input and try again.';
+    case 'unauthorized:session':
+      return 'You need to sign in to access this session.';
 
     default:
       return 'Something went wrong. Please try again later.';

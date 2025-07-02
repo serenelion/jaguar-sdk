@@ -85,7 +85,7 @@ Intelligent document processing, search, and knowledge synthesis powered by your
 
 - Node.js 18+ and pnpm
 - Supabase account (database)
-- xAI API key (AI models)
+- Jaguar API key (OpenWebUI instance)
 
 ### 1. Clone & Install
 
@@ -103,8 +103,9 @@ Copy `.env.example` to `.env` and configure:
 # Database (Required)
 POSTGRES_URL=postgresql://postgres:password@db.your-ref.supabase.co:5432/postgres
 
-# AI Models (Required)
-XAI_API_KEY=xai-your-api-key-here
+# Jaguar AI Models (Required)
+JAGUAR_BASE_URL=https://ai.thespatialnetwork.net
+JAGUAR_API_KEY=sk-your-jaguar-api-key-here
 
 # Optional Enhancements
 BLOB_READ_WRITE_TOKEN=vercel_blob_rw_your-token
@@ -195,11 +196,24 @@ jaguar-sdk/
 
 ## 📚 Documentation
 
+### Core Documentation
+
+- **[Jaguar Core](docs/jaguar-core.md)**: Complete Jaguar architecture and API guide
+- **[OpenWebUI Integration](docs/openwebui-integration.md)**: Setup and integration patterns
 - **[Setup Guide](SETUP.md)**: Complete installation instructions
+
+### Infrastructure Guides
+
+- **[n8n Workflows](https://docs.n8n.io/)**: Workflow automation and agent orchestration
+- **[React Development](https://react.dev/)**: Modern React patterns for AI interfaces
+- **[Next.js Framework](https://nextjs.org/docs)**: Full-stack React framework guide
+- **[PostgreSQL](https://www.postgresql.org/docs/)**: Database management and optimization
+
+### AGI & Ethics
+
+- **[Permaculture Ethics](docs/jaguar-core.md#permaculture-ethics-integration)**: Earth Care, People Care, Fair Share
+- **[Conscious AI Development](docs/jaguar-core.md#masterclass-wisdom)**: Ethical AI frameworks
 - **[System Prompt](docs/system_prompt.md)**: Core AI behavior configuration
-- **[API Reference](docs/api.md)**: Integration documentation
-- **[Agent Development](docs/agents.md)**: Building custom agents
-- **[Spatial Network](docs/spatial.md)**: Network integration guide
 
 ---
 

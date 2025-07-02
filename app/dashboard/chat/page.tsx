@@ -8,22 +8,11 @@ import { DataStreamHandler } from '@/components/data-stream-handler';
 import { auth } from '../../(auth)/auth';
 
 export default async function ChatPage() {
-  // Temporarily disable auth for testing
-  // const session = await auth();
+  const session = await auth();
 
-  // if (!session) {
-  //   redirect('/api/auth/guest');
-  // }
-
-  // Mock session for testing
-  const session = {
-    user: {
-      id: 'test-user',
-      email: 'test@example.com',
-      type: 'guest' as const,
-    },
-    expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 24 hours from now
-  } as any; // Temporary type override for testing
+  if (!session) {
+    redirect('/login');
+  }
 
   const id = generateUUID();
 

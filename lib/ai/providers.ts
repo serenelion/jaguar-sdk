@@ -3,7 +3,7 @@ import {
   extractReasoningMiddleware,
   wrapLanguageModel,
 } from 'ai';
-import { xai } from '@ai-sdk/xai';
+import { createOpenAI } from '@ai-sdk/openai';
 import { isTestEnvironment } from '../constants';
 import {
   artifactModel,
@@ -12,6 +12,12 @@ import {
   titleModel,
 } from './models.test';
 
+// Jaguar API configuration - OpenWebUI instance
+const jaguarProvider = createOpenAI({
+  baseURL: `${process.env.JAGUAR_BASE_URL}/api`,
+  apiKey: process.env.JAGUAR_API_KEY,
+});
+
 export const myProvider = isTestEnvironment
   ? customProvider({
       languageModels: {
@@ -19,19 +25,55 @@ export const myProvider = isTestEnvironment
         'chat-model-reasoning': reasoningModel,
         'title-model': titleModel,
         'artifact-model': artifactModel,
+        'jaguar-pro': chatModel,
+        nature: chatModel,
+        codewriter: chatModel,
       },
     })
   : customProvider({
       languageModels: {
-        'chat-model': xai('grok-2-vision-1212'),
+        // Core Jaguar models
+        'chat-model': jaguarProvider('jaguar'),
         'chat-model-reasoning': wrapLanguageModel({
-          model: xai('grok-3-mini-beta'),
+          model: jaguarProvider('jaguar'),
           middleware: extractReasoningMiddleware({ tagName: 'think' }),
         }),
-        'title-model': xai('grok-2-1212'),
-        'artifact-model': xai('grok-2-1212'),
+        'title-model': jaguarProvider('jaguar'),
+        'artifact-model': jaguarProvider('jaguar-pro'),
+
+        // Extended Jaguar model suite
+        'jaguar-pro': jaguarProvider('jaguar-pro'),
+        nature: jaguarProvider('nature'),
+        codewriter: jaguarProvider('codewriter:latest'),
+
+        // External models available through OpenWebUI
+        'openrouter/cypher-alpha:free': jaguarProvider(
+          'openrouter/cypher-alpha:free',
+        ),
+        'anthropic/claude-sonnet-4': jaguarProvider(
+          'anthropic/claude-sonnet-4',
+        ),
+        'anthropic/claude-opus-4': jaguarProvider('anthropic/claude-opus-4'),
       },
-      imageModels: {
-        'small-model': xai.image('grok-2-image'),
-      },
+      // Future: Image models when Jaguar supports them
+      // imageModels: {
+      //   'jaguar-vision': jaguarProvider('jaguar-vision'),
+      // },
     });
+
+// Model capabilities and ethics mapping
+export const modelCapabilities = {
+  'chat-model': ['coding', 'workflows', 'mentoring'],
+  'chat-model-reasoning': ['reasoning', 'analysis', 'problem-solving'],
+  'jaguar-pro': ['advanced-coding', 'architecture', 'strategy'],
+  nature: ['permaculture', 'ecology', 'sustainability'],
+  codewriter: ['coding', 'architecture', 'optimization'],
+} as const;
+
+export const modelEthics = {
+  'chat-model': 'Earth Care, People Care, Fair Share',
+  'chat-model-reasoning': 'Earth Care, People Care, Fair Share',
+  'jaguar-pro': 'Earth Care, People Care, Fair Share',
+  nature: 'Ecocentric, Seven Generations Thinking',
+  codewriter: 'Technical Excellence, Clean Code',
+} as const;

@@ -48,10 +48,10 @@ const modules = [
     description: 'Agent Team Collaboration',
   },
   {
-    name: 'Workflows',
-    href: '/dashboard/workflows',
+    name: 'Templates',
+    href: '/dashboard/templates',
     icon: Workflow,
-    description: 'Templates & Automation',
+    description: 'Ready-to-use integrations & workflows',
   },
   {
     name: 'Marketplace',

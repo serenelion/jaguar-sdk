@@ -8,7 +8,16 @@
     "url": "https://github.com/serenelion/jaguar-sdk.git"
   },
   "homepage": "https://jaguar-sdk.dev",
-  "keywords": ["ai", "agi", "agents", "open-source", "spatial-network", "new-earth", "automation", "nextjs"],
+  "keywords": [
+    "ai",
+    "agi",
+    "agents",
+    "open-source",
+    "spatial-network",
+    "new-earth",
+    "automation",
+    "nextjs"
+  ],
   "author": "Serene Lion <hello@jaguar-sdk.dev>",
   "license": "MIT",
   "scripts": {
@@ -29,6 +38,7 @@
     "test": "export PLAYWRIGHT=True && pnpm exec playwright test"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^1.3.22",
     "@ai-sdk/react": "^1.2.11",
     "@ai-sdk/xai": "^1.2.15",
     "@codemirror/lang-javascript": "^6.2.2",
@@ -48,6 +58,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.3",
     "@radix-ui/react-visually-hidden": "^1.1.0",
+    "@types/better-sqlite3": "^7.6.13",
     "@vercel/analytics": "^1.3.1",
     "@vercel/blob": "^0.24.1",
     "@vercel/functions": "^2.0.0",
@@ -55,6 +66,7 @@
     "@vercel/postgres": "^0.10.0",
     "ai": "4.3.13",
     "bcrypt-ts": "^5.0.2",
+    "better-sqlite3": "^12.2.0",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",

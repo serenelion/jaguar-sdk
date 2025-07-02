@@ -1,5 +1,4 @@
-import { auth } from '@/app/(auth)/auth';
-import { redirect } from 'next/navigation';
+
 import { Bot, Plus, Settings, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 

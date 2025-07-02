@@ -5,8 +5,8 @@
  * Run with: node scripts/check-env.js
  */
 
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 console.log('🔍 Checking Jaguar SDK Environment Setup...\n');
 
@@ -33,14 +33,14 @@ const checks = [
     name: 'POSTGRES_URL',
     required: true,
     description: 'Database connection (Supabase)',
-    check: (value) => value && value.startsWith('postgresql://'),
+    check: (value) => value?.startsWith('postgresql://'),
     help: 'Get from Supabase project Settings → Database',
   },
   {
     name: 'XAI_API_KEY',
     required: true,
     description: 'AI model API key',
-    check: (value) => value && value.startsWith('xai-'),
+    check: (value) => value?.startsWith('xai-'),
     help: 'Get from https://console.x.ai/',
   },
   {

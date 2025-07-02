@@ -17,61 +17,67 @@ export default async function TeamsPage() {
         <div>
           <h1 className="text-3xl font-bold mb-2">Teams</h1>
           <p className="text-gray-400">
-            Organize agents into collaborative teams
+            Build agent teams that work together toward shared goals
           </p>
         </div>
-        <Button className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
+        <Button className="jaguar-button-indigo">
           <Plus className="mr-2" size={16} />
-          Create Team
+          Build Team
         </Button>
       </div>
 
       {/* Empty State */}
       <div className="flex-1 flex items-center justify-center">
         <div className="text-center max-w-md">
-          <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Users className="text-gray-400" size={32} />
+          <div className="w-16 h-16 bg-jaguar-indigo-hover rounded-full flex items-center justify-center mx-auto mb-4">
+            <Users className="text-jaguar-indigo" size={32} />
           </div>
-          <h2 className="text-xl font-semibold mb-2">No teams yet</h2>
+          <h2 className="text-xl font-semibold mb-2">
+            Ready to start your first team?
+          </h2>
           <p className="text-gray-400 mb-6">
-            Create agent teams to tackle complex projects together
+            Combine agents like Researcher, Writer, and Reviewer to tackle
+            complex projects together
           </p>
-          <Button className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
+          <Button className="jaguar-button-indigo">
             <Plus className="mr-2" size={16} />
-            Create Your First Team
+            Build Your First Team
           </Button>
         </div>
       </div>
 
       {/* Feature Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-        <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
-          <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-            <Users className="text-purple-400" size={20} />
+        <div className="jaguar-card-indigo">
+          <div className="w-10 h-10 bg-jaguar-indigo-hover rounded-lg flex items-center justify-center mb-4">
+            <Users className="text-jaguar-indigo" size={20} />
           </div>
-          <h3 className="font-semibold mb-2">Team Collaboration</h3>
+          <h3 className="font-semibold mb-2">Collaborative Intelligence</h3>
           <p className="text-gray-400 text-sm">
-            Agents work together on complex tasks with shared context
+            Agents share knowledge and work together on complex tasks with
+            unified context
           </p>
         </div>
 
-        <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
-          <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-            <Target className="text-blue-400" size={20} />
+        <div className="jaguar-card">
+          <div className="w-10 h-10 bg-jaguar-gold-hover rounded-lg flex items-center justify-center mb-4">
+            <Target className="text-jaguar-gold" size={20} />
           </div>
-          <h3 className="font-semibold mb-2">Shared Goals</h3>
+          <h3 className="font-semibold mb-2">Aligned Objectives</h3>
           <p className="text-gray-400 text-sm">
-            Set team objectives and track progress across all agents
+            Set meaningful goals and track collective progress toward shared
+            impact
           </p>
         </div>
 
-        <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+        <div className="jaguar-card">
           <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mb-4">
             <MessageSquare className="text-green-400" size={20} />
           </div>
-          <h3 className="font-semibold mb-2">Team Communication</h3>
+          <h3 className="font-semibold mb-2">Seamless Coordination</h3>
           <p className="text-gray-400 text-sm">
-            Agents communicate and coordinate through shared channels
+            Agents communicate naturally and coordinate actions through shared
+            channels
           </p>
         </div>
       </div>

@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # Open Web UI service
+  # Open Web UI service with GitHub integration
   open-web-ui:
     image: ghcr.io/open-webui/open-webui:0.6
     container_name: open-web-ui
@@ -12,6 +12,7 @@ services:
       OPENAI_API_BASE_URL: '${OPEN_ROUTER_API_BASE}'
       OPENAI_API_KEY: '${OPEN_ROUTER_API_KEY}'
       ENABLE_OLLAMA_API: 'false'
+      GLOBAL_LOG_LEVEL: ${GLOBAL_LOG_LEVEL}
       TOOL_SERVER_CONNECTIONS: |-
         [
           {
@@ -50,7 +51,11 @@ services:
       - SUPABASE_API_KEY=${SUPABASE_API_KEY}
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - GITHUB_WEBHOOK_SECRET=${GITHUB_WEBHOOK_SECRET}
+      - GITHUB_DEFAULT_OWNER=${GITHUB_DEFAULT_OWNER}
+      - GITHUB_DEFAULT_REPO=${GITHUB_DEFAULT_REPO}
       - TOOL_SERVER_API_KEY=${TOOL_SERVER_API_KEY}
+    volumes:
+      - ./packages/ai-open-agents/tools:/app
     networks:
       - dokploy-network
     labels:
@@ -65,7 +70,7 @@ services:
     image: ghcr.io/serenelion/jaguar-sdk:latest
     build:
       context: ./packages/jaguar-sdk
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.optimized
     container_name: jaguar-sdk-app
     restart: unless-stopped
     ports:

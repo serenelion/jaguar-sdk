@@ -1,5 +1,5 @@
 <a href="https://jaguar-sdk.dev">
-  <img alt="Jaguar SDK - World's First Open Source AGI Platform" src="app/(chat)/opengraph-image.png">
+  <img alt="Jaguar SDK - World's First Open Source Ethically Generated Intelligence Platform" src="app/(chat)/opengraph-image.png">
   <h1 align="center">🐆 Jaguar SDK</h1>
 </a>
 

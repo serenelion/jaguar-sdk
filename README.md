@@ -4,7 +4,7 @@
 </a>
 
 <p align="center">
-    <strong>World's First Open Source AGI Platform</strong><br/>
+    <strong>World's First Open Source Ethically Generated Intelligence Platform</strong><br/>
     Manifest your dreams with AI agents that build the new earth
 </p>
 
@@ -31,7 +31,7 @@
 
 **Jaguar SDK is more than software—it's a movement.**
 
-We're building the world's first open source AGI platform that empowers conscious creators to manifest their dreams through intelligent AI agents. Our mission is to democratize artificial general intelligence and align profit with purpose, creating technology that serves both humanity and the planet.
+We're building the world's first open source Ethically Generated Intelligence platform that empowers conscious creators to manifest their dreams through intelligent AI agents. Our mission is to democratize artificial general intelligence and align profit with purpose, creating technology that serves both humanity and the planet.
 
 ### The New Earth Paradigm
 

@@ -41,3 +41,22 @@ yarn-error.log*
 /playwright-report/
 /blob-report/
 /playwright/*
+
+# Backend/Python specific
+backend/__pycache__/
+backend/tools/__pycache__/
+backend/tools/python/__pycache__/
+backend/tools/python/utils/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+.Python
+backend/.env
+backend/.venv/
+backend/venv/
+backend/ENV/
+backend/env/
+.pythonlibs/
+backend/.pytest_cache/

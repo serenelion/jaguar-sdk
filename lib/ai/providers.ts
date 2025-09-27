@@ -12,15 +12,15 @@ import {
   titleModel,
 } from './models.test';
 
-// Jaguar API configuration - with proper environment handling
+// Jaguar API configuration - connect to production deployment
 const getJaguarBaseURL = () => {
   // Production/explicit configuration takes priority
   if (process.env.JAGUAR_BASE_URL) {
     return process.env.JAGUAR_BASE_URL;
   }
   
-  // In Replit and local development, use localhost for internal communication
-  return 'http://localhost:8000';
+  // Default to production AI Open Agents deployment
+  return 'https://ai.thespatialnetwork.net';
 };
 
 const jaguarProvider = createOpenAI({

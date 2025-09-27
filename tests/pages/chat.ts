@@ -34,6 +34,10 @@ export class ChatPage {
     return this.page.url();
   }
 
+  async setupNetworkMonitoring(callback: (request: import('@playwright/test').Request) => void) {
+    this.page.on('request', callback);
+  }
+
   async sendUserMessage(message: string) {
     await this.multimodalInput.click();
     await this.multimodalInput.fill(message);

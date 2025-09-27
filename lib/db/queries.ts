@@ -13,8 +13,8 @@ import {
   lt,
   type SQL,
 } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import Database from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import postgres from 'postgres';
 
 import {
   user,
@@ -29,7 +29,7 @@ import {
   type Chat,
   stream,
   anonymousSession,
-} from './schema-sqlite';
+} from './schema';
 import type { ArtifactKind } from '@/components/artifact';
 import { generateUUID } from '../utils';
 import { generateHashedPassword } from './utils';
@@ -41,9 +41,8 @@ import { ChatSDKError } from '../errors';
 // https://authjs.dev/reference/adapter/drizzle
 
 // biome-ignore lint: Forbidden non-null assertion.
-const dbPath = process.env.POSTGRES_URL!.replace('file:', '');
-const sqlite = new Database(dbPath);
-const db = drizzle(sqlite);
+const connection = postgres(process.env.DATABASE_URL!, { max: 1 });
+const db = drizzle(connection);
 
 export async function getUser(email: string): Promise<Array<User>> {
   try {

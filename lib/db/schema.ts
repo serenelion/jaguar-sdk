@@ -168,3 +168,18 @@ export const stream = pgTable(
 );
 
 export type Stream = InferSelectModel<typeof stream>;
+
+export const anonymousSession = pgTable('AnonymousSession', {
+  id: uuid('id')
+    .primaryKey()
+    .notNull()
+    .defaultRandom(),
+  initialPrompt: text('initialPrompt').notNull(),
+  sessionData: json('sessionData'),
+  createdAt: timestamp('createdAt').notNull(),
+  convertedUserId: uuid('convertedUserId').references(() => user.id),
+  convertedAt: timestamp('convertedAt'),
+  convertedChatId: uuid('convertedChatId').references(() => chat.id),
+});
+
+export type AnonymousSession = InferSelectModel<typeof anonymousSession>;

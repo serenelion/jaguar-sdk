@@ -1,21 +1,19 @@
 import { config } from 'dotenv';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
-import Database from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import { migrate } from 'drizzle-orm/postgres-js/migrator';
+import postgres from 'postgres';
 
 config({
   path: '.env',
 });
 
 const runMigrate = async () => {
-  if (!process.env.POSTGRES_URL) {
-    throw new Error('POSTGRES_URL is not defined');
+  if (!process.env.DATABASE_URL) {
+    throw new Error('DATABASE_URL is not defined');
   }
 
-  // Extract the file path from the URL (remove 'file:' prefix)
-  const dbPath = process.env.POSTGRES_URL.replace('file:', '');
-  const sqlite = new Database(dbPath);
-  const db = drizzle(sqlite);
+  const connection = postgres(process.env.DATABASE_URL, { max: 1 });
+  const db = drizzle(connection);
 
   console.log('⏳ Running migrations...');
 
@@ -24,7 +22,7 @@ const runMigrate = async () => {
   const end = Date.now();
 
   console.log('✅ Migrations completed in', end - start, 'ms');
-  sqlite.close();
+  await connection.end();
   process.exit(0);
 };
 

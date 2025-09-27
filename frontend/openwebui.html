@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open WebUI - AI Open Agents Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        [x-cloak] { display: none !important; }
+        .dark { color-scheme: dark; }
+        .chat-message { animation: fadeInUp 0.3s ease-out; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .typing-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #6b7280;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        .typing-indicator:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-dark-950 text-white font-sans h-screen overflow-hidden">
+    <div x-data="openWebUI()" x-cloak class="flex h-screen">
+        <!-- Sidebar -->
+        <div :class="{'w-80': sidebarOpen, 'w-16': !sidebarOpen}" class="bg-dark-900 border-r border-dark-700 transition-all duration-300 flex flex-col">
+            <!-- Header -->
+            <div class="p-4 border-b border-dark-700">
+                <div class="flex items-center justify-between">
+                    <div x-show="sidebarOpen" class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center">
+                            <span class="text-black font-bold text-sm">🐆</span>
+                        </div>
+                        <span class="font-semibold text-lg">AI Open Agents</span>
+                    </div>
+                    <button @click="sidebarOpen = !sidebarOpen" class="p-2 hover:bg-dark-800 rounded-lg transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- New Chat Button -->
+            <div class="p-4">
+                <button @click="startNewChat()" class="w-full bg-dark-800 hover:bg-dark-700 text-white py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    <span x-show="sidebarOpen">New Chat</span>
+                </button>
+            </div>
+
+            <!-- Chat History -->
+            <div class="flex-1 overflow-y-auto px-4 pb-4">
+                <div x-show="sidebarOpen">
+                    <h3 class="text-sm font-medium text-gray-400 mb-3">Recent Chats</h3>
+                    <template x-for="chat in chatHistory" :key="chat.id">
+                        <div @click="loadChat(chat)" :class="{'bg-dark-800': currentChatId === chat.id}" class="p-3 hover:bg-dark-800 rounded-lg cursor-pointer transition-colors mb-2">
+                            <div class="text-sm font-medium truncate" x-text="chat.title"></div>
+                            <div class="text-xs text-gray-400 mt-1" x-text="formatDate(chat.timestamp)"></div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div class="p-4 border-t border-dark-700">
+                <button @click="showSettings = true" class="w-full flex items-center space-x-3 p-3 hover:bg-dark-800 rounded-lg transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <span x-show="sidebarOpen">Settings</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col">
+            <!-- Top Bar -->
+            <div class="bg-dark-900 border-b border-dark-700 p-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <h1 class="text-xl font-semibold">Chat</h1>
+                        <div class="flex items-center space-x-2">
+                            <select x-model="selectedModel" @change="updateModel()" class="bg-dark-800 border border-dark-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                                <template x-for="model in availableModels" :key="model.id">
+                                    <option :value="model.id" x-text="`${model.id} - ${model.description}`"></option>
+                                </template>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2 text-sm text-gray-400">
+                        <div class="flex items-center space-x-1">
+                            <div :class="{'bg-green-500': connectionStatus === 'connected', 'bg-red-500': connectionStatus === 'disconnected', 'bg-yellow-500': connectionStatus === 'connecting'}" class="w-2 h-2 rounded-full"></div>
+                            <span x-text="connectionStatus"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-6" x-ref="chatContainer">
+                <template x-for="message in messages" :key="message.id">
+                    <div class="chat-message">
+                        <div :class="{'justify-end': message.role === 'user', 'justify-start': message.role === 'assistant'}" class="flex">
+                            <div :class="{'bg-yellow-600 text-black': message.role === 'user', 'bg-dark-800': message.role === 'assistant'}" class="max-w-4xl rounded-2xl px-6 py-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="flex-shrink-0">
+                                        <div :class="{'bg-yellow-500': message.role === 'user', 'bg-dark-700': message.role === 'assistant'}" class="w-8 h-8 rounded-full flex items-center justify-center">
+                                            <span x-text="message.role === 'user' ? '👤' : '🐆'" class="text-sm"></span>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center space-x-2 mb-2">
+                                            <span class="text-sm font-medium" x-text="message.role === 'user' ? 'You' : selectedModel"></span>
+                                            <span class="text-xs text-gray-400" x-text="formatTime(message.timestamp)"></span>
+                                        </div>
+                                        <div class="prose prose-sm max-w-none" x-html="formatMessage(message.content)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Typing Indicator -->
+                <div x-show="isTyping" class="chat-message">
+                    <div class="flex justify-start">
+                        <div class="bg-dark-800 rounded-2xl px-6 py-4">
+                            <div class="flex items-start space-x-3">
+                                <div class="flex-shrink-0">
+                                    <div class="w-8 h-8 rounded-full bg-dark-700 flex items-center justify-center">
+                                        <span class="text-sm">🐆</span>
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <span class="text-sm font-medium" x-text="selectedModel"></span>
+                                        <span class="text-xs text-gray-400">thinking...</span>
+                                    </div>
+                                    <div class="flex space-x-1">
+                                        <div class="typing-indicator"></div>
+                                        <div class="typing-indicator"></div>
+                                        <div class="typing-indicator"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="border-t border-dark-700 p-6">
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex items-end space-x-4">
+                        <div class="flex-1">
+                            <textarea 
+                                x-model="inputMessage" 
+                                @keydown.enter.prevent="!$event.shiftKey && sendMessage()"
+                                @input="autoResize()"
+                                placeholder="Type your message here... (Shift+Enter for new line)"
+                                class="w-full bg-dark-800 border border-dark-600 rounded-xl px-4 py-3 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-500 min-h-[50px] max-h-32"
+                                rows="1"
+                                x-ref="messageInput"
+                            ></textarea>
+                        </div>
+                        <button 
+                            @click="sendMessage()" 
+                            :disabled="!inputMessage.trim() || isTyping"
+                            class="bg-yellow-600 hover:bg-yellow-700 disabled:bg-dark-600 disabled:cursor-not-allowed text-black px-6 py-3 rounded-xl transition-colors flex items-center space-x-2"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                            </svg>
+                            <span>Send</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div x-show="showSettings" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" @click.self="showSettings = false">
+            <div class="bg-dark-900 rounded-lg p-6 w-full max-w-md">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-semibold">Settings</h2>
+                    <button @click="showSettings = false" class="p-2 hover:bg-dark-800 rounded-lg">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">API Base URL</label>
+                        <input x-model="apiBaseUrl" type="text" class="w-full bg-dark-800 border border-dark-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">API Key</label>
+                        <input x-model="apiKey" type="password" class="w-full bg-dark-800 border border-dark-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button @click="testConnection()" class="flex-1 bg-yellow-600 hover:bg-yellow-700 text-black py-2 px-4 rounded-lg transition-colors">
+                            Test Connection
+                        </button>
+                        <button @click="saveSettings()" class="flex-1 bg-dark-700 hover:bg-dark-600 py-2 px-4 rounded-lg transition-colors">
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openWebUI() {
+            return {
+                // UI State
+                sidebarOpen: true,
+                showSettings: false,
+                isTyping: false,
+                connectionStatus: 'disconnected',
+                
+                // Chat State
+                messages: [],
+                inputMessage: '',
+                currentChatId: null,
+                chatHistory: [],
+                
+                // API Configuration
+                apiBaseUrl: 'http://localhost:8000/api',
+                apiKey: 'dev-key',
+                selectedModel: 'jaguar',
+                availableModels: [
+                    { id: 'jaguar', description: 'AI developer agent with masterclass wisdom' },
+                    { id: 'jaguar-pro', description: 'Advanced AI agent with enhanced capabilities' },
+                    { id: 'nature', description: 'GaiaGuard - AI dedicated to ecological regeneration' },
+                    { id: 'codewriter:latest', description: 'Senior developer focused on optimal code' }
+                ],
+
+                async init() {
+                    console.log('🐆 AI Open Agents Platform - Initializing...');
+                    this.loadSettings();
+                    await this.loadModels();
+                    await this.checkConnection();
+                    this.loadChatHistory();
+                    this.startNewChat();
+                },
+
+                loadSettings() {
+                    const saved = localStorage.getItem('openwebui-settings');
+                    if (saved) {
+                        const settings = JSON.parse(saved);
+                        this.apiBaseUrl = settings.apiBaseUrl || this.apiBaseUrl;
+                        this.apiKey = settings.apiKey || this.apiKey;
+                        this.selectedModel = settings.selectedModel || this.selectedModel;
+                    }
+                },
+
+                saveSettings() {
+                    localStorage.setItem('openwebui-settings', JSON.stringify({
+                        apiBaseUrl: this.apiBaseUrl,
+                        apiKey: this.apiKey,
+                        selectedModel: this.selectedModel
+                    }));
+                    this.showSettings = false;
+                    this.checkConnection();
+                },
+
+                async loadModels() {
+                    try {
+                        const response = await fetch(`${this.apiBaseUrl}/models`, {
+                            headers: {
+                                'Authorization': `Bearer ${this.apiKey}`,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        if (response.ok) {
+                            const data = await response.json();
+                            this.availableModels = data.data || this.availableModels;
+                        }
+                    } catch (error) {
+                        console.warn('Failed to load models from API, using defaults');
+                    }
+                },
+
+                async checkConnection() {
+                    this.connectionStatus = 'connecting';
+                    try {
+                        const response = await fetch(`${this.apiBaseUrl}/models`, {
+                            headers: {
+                                'Authorization': `Bearer ${this.apiKey}`,
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                        
+                        this.connectionStatus = response.ok ? 'connected' : 'disconnected';
+                    } catch (error) {
+                        this.connectionStatus = 'disconnected';
+                    }
+                },
+
+                async testConnection() {
+                    await this.checkConnection();
+                    const status = this.connectionStatus === 'connected' ? '✅ Connection successful!' : '❌ Connection failed!';
+                    alert(status);
+                },
+
+                startNewChat() {
+                    this.currentChatId = Date.now().toString();
+                    this.messages = [];
+                    this.addWelcomeMessage();
+                },
+
+                addWelcomeMessage() {
+                    this.messages.push({
+                        id: Date.now(),
+                        role: 'assistant',
+                        content: `Hello! I'm ${this.selectedModel}, your AI agent. I'm here to help you with coding, workflows, and problem-solving while keeping our values of Earth Care, People Care, and Fair Share at the center. How can I assist you today?`,
+                        timestamp: Date.now()
+                    });
+                    this.$nextTick(() => this.scrollToBottom());
+                },
+
+                async sendMessage() {
+                    if (!this.inputMessage.trim() || this.isTyping) return;
+
+                    const userMessage = {
+                        id: Date.now(),
+                        role: 'user',
+                        content: this.inputMessage.trim(),
+                        timestamp: Date.now()
+                    };
+
+                    this.messages.push(userMessage);
+                    const messageText = this.inputMessage.trim();
+                    this.inputMessage = '';
+                    this.isTyping = true;
+
+                    this.$nextTick(() => {
+                        this.scrollToBottom();
+                        this.autoResize();
+                    });
+
+                    try {
+                        const response = await fetch(`${this.apiBaseUrl}/chat/completions`, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Bearer ${this.apiKey}`,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                model: this.selectedModel,
+                                messages: this.messages.map(m => ({ role: m.role, content: m.content })),
+                                max_tokens: 2000,
+                                temperature: 0.7,
+                                stream: false
+                            })
+                        });
+
+                        if (response.ok) {
+                            const data = await response.json();
+                            const assistantMessage = {
+                                id: Date.now(),
+                                role: 'assistant',
+                                content: data.choices[0].message.content,
+                                timestamp: Date.now()
+                            };
+                            this.messages.push(assistantMessage);
+                            this.saveChatHistory();
+                        } else {
+                            throw new Error(`API Error: ${response.status}`);
+                        }
+                    } catch (error) {
+                        this.messages.push({
+                            id: Date.now(),
+                            role: 'assistant',
+                            content: `Error: ${error.message}. Please check your connection and API settings.`,
+                            timestamp: Date.now()
+                        });
+                    } finally {
+                        this.isTyping = false;
+                        this.$nextTick(() => this.scrollToBottom());
+                    }
+                },
+
+                updateModel() {
+                    this.saveSettings();
+                    this.addWelcomeMessage();
+                },
+
+                loadChatHistory() {
+                    const saved = localStorage.getItem('openwebui-chats');
+                    this.chatHistory = saved ? JSON.parse(saved) : [];
+                },
+
+                saveChatHistory() {
+                    if (this.messages.length > 1) {
+                        const chatTitle = this.messages[1]?.content?.substring(0, 50) + '...' || 'New Chat';
+                        const existingIndex = this.chatHistory.findIndex(c => c.id === this.currentChatId);
+                        
+                        const chatData = {
+                            id: this.currentChatId,
+                            title: chatTitle,
+                            messages: this.messages,
+                            timestamp: Date.now(),
+                            model: this.selectedModel
+                        };
+
+                        if (existingIndex >= 0) {
+                            this.chatHistory[existingIndex] = chatData;
+                        } else {
+                            this.chatHistory.unshift(chatData);
+                        }
+
+                        this.chatHistory = this.chatHistory.slice(0, 50); // Keep last 50 chats
+                        localStorage.setItem('openwebui-chats', JSON.stringify(this.chatHistory));
+                    }
+                },
+
+                loadChat(chat) {
+                    this.currentChatId = chat.id;
+                    this.messages = chat.messages;
+                    this.selectedModel = chat.model;
+                    this.$nextTick(() => this.scrollToBottom());
+                },
+
+                formatMessage(content) {
+                    return content
+                        .replace(/\n/g, '<br>')
+                        .replace(/`([^`]+)`/g, '<code class="bg-dark-700 px-2 py-1 rounded text-sm">$1</code>')
+                        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+                },
+
+                formatDate(timestamp) {
+                    return new Date(timestamp).toLocaleDateString();
+                },
+
+                formatTime(timestamp) {
+                    return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                },
+
+                autoResize() {
+                    this.$nextTick(() => {
+                        const textarea = this.$refs.messageInput;
+                        textarea.style.height = 'auto';
+                        textarea.style.height = Math.min(textarea.scrollHeight, 128) + 'px';
+                    });
+                },
+
+                scrollToBottom() {
+                    this.$nextTick(() => {
+                        this.$refs.chatContainer.scrollTop = this.$refs.chatContainer.scrollHeight;
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>

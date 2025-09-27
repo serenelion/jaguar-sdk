@@ -24,7 +24,7 @@ args = "Backend Server"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Test Interface"
+args = "OpenWebUI Interface"
 
 [[workflows.workflow]]
 name = "Development Server"
@@ -51,12 +51,12 @@ waitForPort = 8000
 outputType = "console"
 
 [[workflows.workflow]]
-name = "Test Interface"
+name = "OpenWebUI Interface"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd backend && python serve_interface.py"
+args = "cd frontend && python serve_openwebui.py"
 waitForPort = 3000
 
 [workflows.workflow.metadata]
@@ -65,14 +65,6 @@ outputType = "console"
 [[ports]]
 localPort = 3000
 externalPort = 3000
-
-[[ports]]
-localPort = 8000
-externalPort = 8000
-
-[[ports]]
-localPort = 41747
-externalPort = 3001
 
 [deployment]
 deploymentTarget = "autoscale"

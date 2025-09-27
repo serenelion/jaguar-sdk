@@ -12,10 +12,12 @@ import {
   titleModel,
 } from './models.test';
 
-// Jaguar API configuration - OpenWebUI instance
+// Jaguar API configuration - Local backend instance
 const jaguarProvider = createOpenAI({
-  baseURL: `${process.env.JAGUAR_BASE_URL}/api`,
-  apiKey: process.env.JAGUAR_API_KEY,
+  baseURL: process.env.NODE_ENV === 'production' 
+    ? `https://${process.env.REPLIT_DEV_DOMAIN?.replace('5000', '8000')}/api`
+    : 'http://localhost:8000/api',
+  apiKey: 'local-api-key', // Not needed for local backend but required by createOpenAI
 });
 
 export const myProvider = isTestEnvironment

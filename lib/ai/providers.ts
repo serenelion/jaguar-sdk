@@ -19,12 +19,7 @@ const getJaguarBaseURL = () => {
     return process.env.JAGUAR_BASE_URL;
   }
   
-  // Replit development fallback
-  if (process.env.REPLIT_DEV_DOMAIN && process.env.NODE_ENV !== 'production') {
-    return `https://${process.env.REPLIT_DEV_DOMAIN.replace('5000', '8000')}`;
-  }
-  
-  // Local development fallback
+  // In Replit and local development, use localhost for internal communication
   return 'http://localhost:8000';
 };
 

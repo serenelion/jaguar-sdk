@@ -12,12 +12,25 @@ import {
   titleModel,
 } from './models.test';
 
-// Jaguar API configuration - Local backend instance
+// Jaguar API configuration - with proper environment handling
+const getJaguarBaseURL = () => {
+  // Production/explicit configuration takes priority
+  if (process.env.JAGUAR_BASE_URL) {
+    return process.env.JAGUAR_BASE_URL;
+  }
+  
+  // Replit development fallback
+  if (process.env.REPLIT_DEV_DOMAIN && process.env.NODE_ENV !== 'production') {
+    return `https://${process.env.REPLIT_DEV_DOMAIN.replace('5000', '8000')}`;
+  }
+  
+  // Local development fallback
+  return 'http://localhost:8000';
+};
+
 const jaguarProvider = createOpenAI({
-  baseURL: process.env.NODE_ENV === 'production' 
-    ? `https://${process.env.REPLIT_DEV_DOMAIN?.replace('5000', '8000')}/api`
-    : 'http://localhost:8000/api',
-  apiKey: 'local-api-key', // Not needed for local backend but required by createOpenAI
+  baseURL: `${getJaguarBaseURL()}/api`,
+  apiKey: process.env.JAGUAR_API_KEY || 'dev-key',
 });
 
 export const myProvider = isTestEnvironment

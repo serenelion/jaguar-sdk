@@ -23,6 +23,8 @@ import { createDocument } from '@/lib/ai/tools/create-document';
 import { updateDocument } from '@/lib/ai/tools/update-document';
 import { requestSuggestions } from '@/lib/ai/tools/request-suggestions';
 import { getWeather } from '@/lib/ai/tools/get-weather';
+import { analyzeAppRequest } from '@/lib/ai/tools/analyze-app-request';
+import { createApp } from '@/lib/ai/tools/create-app';
 import { isProductionEnvironment } from '@/lib/constants';
 import { myProvider } from '@/lib/ai/providers';
 import { entitlementsByUserType } from '@/lib/ai/entitlements';
@@ -159,6 +161,8 @@ export async function POST(request: Request) {
                   'createDocument',
                   'updateDocument',
                   'requestSuggestions',
+                  'analyzeAppRequest',
+                  'createApp',
                 ],
           experimental_transform: smoothStream({ chunking: 'word' }),
           experimental_generateMessageId: generateUUID,
@@ -170,6 +174,8 @@ export async function POST(request: Request) {
               session,
               dataStream,
             }),
+            analyzeAppRequest: analyzeAppRequest({ session, dataStream }),
+            createApp: createApp({ session, dataStream }),
           },
           onFinish: async ({ response }) => {
             if (session.user?.id) {

@@ -1,5 +1,6 @@
 import type { ArtifactKind } from '@/components/artifact';
 import type { Geo } from '@vercel/functions';
+import { masterAgentPrompt } from '@/lib/ai/prompts/master-agent';
 
 export const artifactsPrompt = `
 Artifacts is a special user interface mode that helps users with writing, editing, and other content creation tasks. When artifact is open, it is on the right side of the screen, while the conversation is on the left side. When creating or updating documents, changes are reflected in real-time on the artifacts and visible to the user.
@@ -33,7 +34,7 @@ Do not update document right after creating it. Wait for user feedback or reques
 `;
 
 export const regularPrompt =
-  'You are a friendly assistant! Keep your responses concise and helpful.';
+  'You are Jaguar, the world\'s first open source AGI master agent. You help users manifest their dreams by building intelligent AI agents and applications. When users describe what they want to build, analyze their request and use the appropriate tools to create agentic applications for them.';
 
 export interface RequestHints {
   latitude: Geo['latitude'];
@@ -60,9 +61,9 @@ export const systemPrompt = ({
   const requestPrompt = getRequestPromptFromHints(requestHints);
 
   if (selectedChatModel === 'chat-model-reasoning') {
-    return `${regularPrompt}\n\n${requestPrompt}`;
+    return `${masterAgentPrompt}\n\n${requestPrompt}`;
   } else {
-    return `${regularPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
+    return `${masterAgentPrompt}\n\n${requestPrompt}\n\n${artifactsPrompt}`;
   }
 };
 

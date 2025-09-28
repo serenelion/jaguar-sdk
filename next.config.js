@@ -20,14 +20,6 @@ const nextConfig = {
     },
   },
 
-  // Resolve cross-origin warning - proper format without protocols
-  allowedDevOrigins: [
-    '127.0.0.1:5000',
-    'localhost:5000',
-    'f67e16c3-f99c-4248-a504-44ed34cb11e0-00-46s72nends43.janeway.replit.dev',
-    'f67e16c3-f99c-4248-a504-44ed34cb11e0-00-46s72nends43.janeway.replit.dev:5000',
-    '*.janeway.replit.dev',
-  ],
 
   // Image optimization  
   images: {

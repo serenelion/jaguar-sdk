@@ -1,58 +1,40 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  /*
-   * Playwright starts the dev server and requires a 200 status to
-   * begin the tests, so this ensures that the tests can start
-   */
+  // Playwright health check
   if (pathname.startsWith('/ping')) {
     return new Response('pong', { status: 200 });
   }
 
+  // Skip middleware for API auth routes
   if (pathname.startsWith('/api/auth')) {
     return NextResponse.next();
   }
 
-  // Temporarily disable auth for landing page demo
-  // const token = await getToken({
-  //   req: request,
-  //   secret: process.env.AUTH_SECRET,
-  //   secureCookie: !isDevelopmentEnvironment,
-  // });
-
-  // if (!token) {
-  //   const redirectUrl = encodeURIComponent(request.url);
-
-  //   return NextResponse.redirect(
-  //     new URL(`/api/auth/guest?redirectUrl=${redirectUrl}`, request.url),
-  //   );
-  // }
-
-  // const isGuest = guestRegex.test(token?.email ?? '');
-
-  // if (token && !isGuest && ['/login', '/register'].includes(pathname)) {
-  //   return NextResponse.redirect(new URL('/', request.url));
-  // }
+  // Skip middleware for static assets
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/favicon.ico') ||
+    pathname.startsWith('/robots.txt') ||
+    pathname.startsWith('/sitemap.xml')
+  ) {
+    return NextResponse.next();
+  }
 
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    '/',
-    '/chat/:id',
-    '/api/:path*',
-    '/login',
-    '/register',
-
     /*
      * Match all request paths except for the ones starting with:
+     * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
-     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     * - favicon.ico (favicon file)
      */
-    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };

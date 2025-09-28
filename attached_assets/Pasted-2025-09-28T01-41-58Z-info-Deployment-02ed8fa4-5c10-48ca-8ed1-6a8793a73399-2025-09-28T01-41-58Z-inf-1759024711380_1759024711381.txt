@@ -1,0 +1,95 @@
+2025-09-28T01:41:58Z info: Deployment: 02ed8fa4-5c10-48ca-8ed1-6a8793a73399
+2025-09-28T01:41:58Z info: Build: 60d3989b-9a1b-49ea-889e-25dcc3cc9de6
+2025-09-28T01:42:02Z info: Preparing development database schema
+2025-09-28T01:42:07Z info: Successfully copied development database schema to production database
+2025-09-28T01:42:07Z info: Connecting to builder
+2025-09-28T01:42:07Z info: Builder connected
+2025-09-28T01:42:07Z info: Installing packages
+--> npm install
+
+npm warn ERESOLVE overriding peer dependency
+
+npm warn While resolving: @floating-ui/react-dom@2.1.4
+npm warn Found: react@19.0.0-rc-45804af1-20241021
+npm warn node_modules/react
+npm warn   react@"19.0.0-rc-45804af1-20241021" from the root project
+npm warn   48 more (@ai-sdk/react, @radix-ui/react-alert-dialog, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer react@">=16.8.0" from @floating-ui/react-dom@2.1.4
+npm warn node_modules/@floating-ui/react-dom
+npm warn   @floating-ui/react-dom@"^2.0.0" from @radix-ui/react-popper@1.2.7
+npm warn   node_modules/@radix-ui/react-popper
+npm warn
+npm warn Conflicting peer dependency: react@19.1.1
+npm warn node_modules/react
+npm warn   peer react@">=16.8.0" from @floating-ui/react-dom@2.1.4
+npm warn   node_modules/@floating-ui/react-dom
+npm warn     @floating-ui/react-dom@"^2.0.0" from @radix-ui/react-popper@1.2.7
+npm warn     node_modules/@radix-ui/react-popper
+
+npm warn ERESOLVE overriding peer dependency
+
+npm warn While resolving: @floating-ui/react-dom@2.1.4
+npm warn Found: react-dom@19.0.0-rc-45804af1-20241021
+npm warn node_modules/react-dom
+npm warn   react-dom@"19.0.0-rc-45804af1-20241021" from the root project
+npm warn   20 more (@radix-ui/react-alert-dialog, @radix-ui/react-arrow, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer react-dom@">=16.8.0" from @floating-ui/react-dom@2.1.4
+npm warn node_modules/@floating-ui/react-dom
+npm warn   @floating-ui/react-dom@"^2.0.0" from @radix-ui/react-popper@1.2.7
+npm warn   node_modules/@radix-ui/react-popper
+npm warn
+npm warn Conflicting peer dependency: react-dom@19.1.1
+npm warn node_modules/react-dom
+npm warn   peer react-dom@">=16.8.0" from @floating-ui/react-dom@2.1.4
+npm warn   node_modules/@floating-ui/react-dom
+npm warn     @floating-ui/react-dom@"^2.0.0" from @radix-ui/react-popper@1.2.7
+npm warn     node_modules/@radix-ui/react-popper
+
+npm error code ERESOLVE
+
+npm error ERESOLVE could not resolve
+
+npm error
+
+npm error While resolving: drizzle-orm@0.34.1
+npm error Found: react@19.0.0-rc-45804af1-20241021
+npm error node_modules/react
+npm error   react@"19.0.0-rc-45804af1-20241021" from the root project
+npm error   peer react@"^18 || ^19 || ^19.0.0-rc" from @ai-sdk/react@1.2.12
+npm error   node_modules/@ai-sdk/react
+npm error     @ai-sdk/react@"^1.2.11" from the root project
+npm error   47 more (@radix-ui/react-alert-dialog, @radix-ui/react-arrow, ...)
+npm error
+npm error Could not resolve dependency:
+npm error peerOptional react@">=18" from drizzle-orm@0.34.1
+npm error node_modules/drizzle-orm
+npm error   drizzle-orm@"^0.34.0" from the root project
+npm error
+npm error Conflicting peer dependency: react@19.1.1
+npm error node_modules/react
+npm error   peerOptional react@">=18" from drizzle-orm@0.34.1
+npm error   node_modules/drizzle-orm
+npm error     drizzle-orm@"^0.34.0" from the root project
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+
+npm error
+npm error
+npm error For a full report see:
+npm error /home/runner/.npm/_logs/2025-09-28T01_42_07_789Z-eresolve-report.txt
+
+npm notice
+npm notice New major version of npm available! 10.8.2 -> 11.6.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.6.1
+npm notice To update run: npm install -g npm@11.6.1
+npm notice
+npm error A complete log of this run can be found in: /home/runner/.npm/_logs/2025-09-28T01_42_07_789Z-debug-0.log
+
+exit status 1
+

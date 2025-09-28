@@ -122,7 +122,7 @@ export default function LandingPage() {
           <div>
             <h1 className="jaguar-h3">jaguar</h1>
             <p className="jaguar-helper uppercase tracking-wide">
-              Open Source AGI
+              jaguar sdk - manifest your dreams
             </p>
           </div>
         </div>

@@ -3,10 +3,12 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   // Performance optimizations
   experimental: {
-    optimizePackageImports: [
-      'lucide-react',
-      'framer-motion',
-    ],
+    // Disabled optimizePackageImports for production webpack compatibility
+    // Works with Turbopack (dev) but causes build failures with webpack (production)
+    // optimizePackageImports: [
+    //   'lucide-react',
+    //   'framer-motion',
+    // ],
     // Server Actions cross-origin configuration
     serverActions: {
       allowedOrigins: [

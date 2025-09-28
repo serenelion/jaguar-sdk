@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
 import { InChatAuthForm } from '@/components/in-chat-auth-form';
 
 type LandingState =
@@ -21,6 +22,16 @@ export default function LandingPage() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const { data: session, status } = useSession();
+
+  // Prefetch dashboard routes for authenticated users
+  useEffect(() => {
+    if (session?.user) {
+      // Prefetch core dashboard routes to eliminate navigation lag
+      router.prefetch('/dashboard/chat');
+      router.prefetch('/dashboard/agents');
+      router.prefetch('/dashboard/teams');
+    }
+  }, [session?.user, router]);
 
   const handleSubmit = async () => {
     if (!dreamAgent.trim()) return;
@@ -153,28 +164,28 @@ export default function LandingPage() {
           {status === 'loading' ? (
             <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[rgb(217,181,113)]" />
           ) : session?.user ? (
-            <button
-              type="button"
-              onClick={() => router.push('/dashboard/chat')}
-              className="jaguar-button-primary"
+            <Link
+              href="/dashboard/chat"
+              prefetch={true}
+              className="jaguar-button-primary inline-block"
             >
               Dashboard
-            </button>
+            </Link>
           ) : (
             <>
-              <a
+              <Link
                 href="/login"
                 className="jaguar-body-secondary hover:text-white transition-colors"
               >
                 Sign In
-              </a>
-              <button
-                type="button"
-                onClick={() => router.push('/register')}
-                className="jaguar-button-primary"
+              </Link>
+              <Link
+                href="/register"
+                prefetch={true}
+                className="jaguar-button-primary inline-block"
               >
                 Get Started
-              </button>
+              </Link>
             </>
           )}
         </div>
@@ -478,13 +489,13 @@ export default function LandingPage() {
           <p className="jaguar-body-secondary text-xl">
             No signup required to try
           </p>
-          <button
-            type="button"
-            onClick={() => router.push('/register')}
-            className="jaguar-button-primary text-lg px-8 py-4"
+          <Link
+            href="/register"
+            prefetch={true}
+            className="jaguar-button-primary text-lg px-8 py-4 inline-block"
           >
             Start Building Now
-          </button>
+          </Link>
         </div>
       </div>
 

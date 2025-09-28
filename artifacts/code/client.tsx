@@ -16,6 +16,34 @@ import {
   type ConsoleOutputContent,
 } from '@/components/console';
 
+// Dynamic Pyodide loader - only loads when Python code execution is needed
+async function loadPyodideDynamic() {
+  // Check if Pyodide is already loaded
+  if (typeof (globalThis as any).loadPyodide !== 'undefined') {
+    return await (globalThis as any).loadPyodide({
+      indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/',
+    });
+  }
+
+  // Dynamically load Pyodide script
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.js';
+    script.onload = async () => {
+      try {
+        const pyodide = await (globalThis as any).loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/',
+        });
+        resolve(pyodide);
+      } catch (error) {
+        reject(error);
+      }
+    };
+    script.onerror = () => reject(new Error('Failed to load Pyodide'));
+    document.head.appendChild(script);
+  });
+}
+
 const OUTPUT_HANDLERS = {
   matplotlib: `
     import io
@@ -133,10 +161,8 @@ export const codeArtifact = new Artifact<'code', Metadata>({
         }));
 
         try {
-          // @ts-expect-error - loadPyodide is not defined
-          const currentPyodideInstance = await globalThis.loadPyodide({
-            indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/',
-          });
+          // Dynamically load Pyodide only when needed
+          const currentPyodideInstance = await loadPyodideDynamic();
 
           currentPyodideInstance.setStdout({
             batched: (output: string) => {

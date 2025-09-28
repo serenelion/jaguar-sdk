@@ -104,18 +104,16 @@ export function JaguarSidebar({ user }: { user: User | undefined }) {
             </Link>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  type="button"
-                  className="p-2 h-fit text-gray-400 hover:text-white hover:bg-gray-800"
+                <Link
+                  href="/dashboard/chat"
+                  prefetch={true}
                   onClick={() => {
                     setOpenMobile(false);
-                    router.push('/dashboard/chat');
-                    router.refresh();
                   }}
+                  className="p-2 h-fit text-gray-400 hover:text-white hover:bg-gray-800 rounded-md inline-flex items-center justify-center transition-colors"
                 >
                   <Plus size={16} />
-                </Button>
+                </Link>
               </TooltipTrigger>
               <TooltipContent align="end">New Chat</TooltipContent>
             </Tooltip>
@@ -138,6 +136,7 @@ export function JaguarSidebar({ user }: { user: User | undefined }) {
                 <TooltipTrigger asChild>
                   <Link
                     href={module.href}
+                    prefetch={true}
                     onClick={() => setOpenMobile(false)}
                     className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-all duration-200 group font-body ${
                       isActive

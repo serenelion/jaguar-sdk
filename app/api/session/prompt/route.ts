@@ -2,6 +2,9 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { getAnonymousSession } from '@/lib/db/queries';
 import { ChatSDKError } from '@/lib/errors';
 
+// Ensure this route is dynamic
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);

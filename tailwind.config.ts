@@ -10,8 +10,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist)'],
-        mono: ['var(--font-geist-mono)'],
+        sans: ['var(--font-inter)', 'sans-serif'],
+        mono: ['var(--font-jetbrains-mono)', 'monospace'],
         headline: ['var(--font-headline)', 'Lato', 'sans-serif'],
         body: ['var(--font-body)', 'Open Sans', 'sans-serif'],
       },

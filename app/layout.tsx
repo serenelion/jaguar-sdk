@@ -8,9 +8,9 @@ import { SessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://jaguar-sdk.ai'),
-  title: 'Jaguar SDK - Open Source AGI',
+  title: 'Jaguar SDK - Manifest Your Dreams',
   description:
-    "Build, deploy, and monetize intelligent agents with Jaguar SDK - the world's first open source AGI platform.",
+    "Build, deploy, and monetize intelligent agents with Jaguar SDK - manifest your dreams with AI agents.",
 };
 
 export const viewport = {

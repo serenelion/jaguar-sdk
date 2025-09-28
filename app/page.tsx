@@ -195,7 +195,7 @@ export default function LandingPage() {
       <div className="max-w-7xl mx-auto px-6 pt-20 pb-32">
         <div className="text-center space-y-8">
           {/* Badge */}
-          <div className="jaguar-pill">world&apos;s first open source agi</div>
+          <div className="jaguar-pill">jaguar sdk - manifest your dreams</div>
 
           {/* Main Headline */}
           <div className="space-y-4">
@@ -509,7 +509,7 @@ export default function LandingPage() {
               </div>
               <div>
                 <h3 className="jaguar-h3">jaguar sdk</h3>
-                <p className="jaguar-helper">Open Source AGI</p>
+                <p className="jaguar-helper">jaguar sdk - manifest your dreams</p>
               </div>
             </div>
             <p className="jaguar-helper">

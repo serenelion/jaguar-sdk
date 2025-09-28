@@ -19,7 +19,7 @@ export default async function NaturePage() {
             Geospatial AI playground for environmental projects
           </p>
         </div>
-        <Button className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
+        <Button className="jaguar-button-primary">
           <MapIcon className="mr-2" size={16} />
           New Project
         </Button>
@@ -35,7 +35,7 @@ export default async function NaturePage() {
             Build geospatial AI applications for environmental monitoring and
             conservation
           </p>
-          <Button className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
+          <Button className="jaguar-button-primary">
             <Globe className="mr-2" size={16} />
             Explore Maps
           </Button>

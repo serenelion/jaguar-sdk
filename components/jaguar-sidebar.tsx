@@ -98,7 +98,7 @@ export function JaguarSidebar({ user }: { user: User | undefined }) {
                   jaguar
                 </span>
                 <p className="text-xs text-gray-400 uppercase tracking-wide font-body">
-                  Open Source AGI
+                  jaguar sdk - manifest your dreams
                 </p>
               </div>
             </Link>

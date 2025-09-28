@@ -18,7 +18,7 @@ export default async function AgentsPage() {
           <h1 className="text-3xl font-bold mb-2">Agents</h1>
           <p className="text-gray-400">Create and manage your AI agents</p>
         </div>
-        <Button className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
+        <Button className="jaguar-button-primary">
           <Plus className="mr-2" size={16} />
           Create Agent
         </Button>
@@ -34,7 +34,7 @@ export default async function AgentsPage() {
           <p className="text-gray-400 mb-6">
             Create your first AI agent to automate tasks and workflows
           </p>
-          <Button className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
+          <Button className="jaguar-button-primary">
             <Plus className="mr-2" size={16} />
             Create Your First Agent
           </Button>

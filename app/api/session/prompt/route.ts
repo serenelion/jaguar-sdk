@@ -23,10 +23,20 @@ export async function GET(request: NextRequest) {
       ).toResponse();
     }
 
+    let parsedSessionData = null;
+    if (session.sessionData) {
+      try {
+        parsedSessionData = JSON.parse(session.sessionData as string);
+      } catch (error) {
+        console.warn('Failed to parse session data:', error);
+        parsedSessionData = null;
+      }
+    }
+
     return NextResponse.json({
       prompt: session.initialPrompt,
       sessionId: session.id,
-      sessionData: session.sessionData ? JSON.parse(session.sessionData) : null,
+      sessionData: parsedSessionData,
     });
   } catch (error) {
     if (error instanceof ChatSDKError) {

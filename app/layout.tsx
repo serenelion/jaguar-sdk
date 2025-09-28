@@ -44,16 +44,6 @@ const openSans = Open_Sans({
 });
 
 const JAGUAR_THEME_COLOR = '#000000';
-const THEME_COLOR_SCRIPT = `\
-(function() {
-  var meta = document.querySelector('meta[name="theme-color"]');
-  if (!meta) {
-    meta = document.createElement('meta');
-    meta.setAttribute('name', 'theme-color');
-    document.head.appendChild(meta);
-  }
-  meta.setAttribute('content', '${JAGUAR_THEME_COLOR}');
-})();`;
 
 export default async function RootLayout({
   children,
@@ -71,11 +61,7 @@ export default async function RootLayout({
       className={`${geist.variable} ${geistMono.variable} ${lato.variable} ${openSans.variable}`}
     >
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: THEME_COLOR_SCRIPT,
-          }}
-        />
+        <meta name="theme-color" content={JAGUAR_THEME_COLOR} />
       </head>
       <body className="antialiased">
         <ThemeProvider

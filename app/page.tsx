@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { InChatAuthForm } from '@/components/in-chat-auth-form';
 
 type LandingState =
@@ -19,6 +20,7 @@ export default function LandingPage() {
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   const handleSubmit = async () => {
     if (!dreamAgent.trim()) return;
@@ -148,19 +150,33 @@ export default function LandingPage() {
         </div>
 
         <div className="flex items-center space-x-4">
-          <a
-            href="/login"
-            className="jaguar-body-secondary hover:text-white transition-colors"
-          >
-            Sign In
-          </a>
-          <button
-            type="button"
-            onClick={() => router.push('/register')}
-            className="jaguar-button-primary"
-          >
-            Get Started
-          </button>
+          {status === 'loading' ? (
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[rgb(217,181,113)]" />
+          ) : session?.user ? (
+            <button
+              type="button"
+              onClick={() => router.push('/dashboard/chat')}
+              className="jaguar-button-primary"
+            >
+              Dashboard
+            </button>
+          ) : (
+            <>
+              <a
+                href="/login"
+                className="jaguar-body-secondary hover:text-white transition-colors"
+              >
+                Sign In
+              </a>
+              <button
+                type="button"
+                onClick={() => router.push('/register')}
+                className="jaguar-button-primary"
+              >
+                Get Started
+              </button>
+            </>
+          )}
         </div>
       </nav>
 

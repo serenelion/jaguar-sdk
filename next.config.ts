@@ -46,6 +46,17 @@ const nextConfig: NextConfig = {
   // Removed webpack configuration to avoid conflict with Turbopack
   // Bundle splitting will be handled by Next.js route-level chunking
 
+  // Redirects for route standardization
+  async redirects() {
+    return [
+      {
+        source: '/chat/:id',
+        destination: '/dashboard/chat/:id',
+        permanent: true,
+      },
+    ];
+  },
+
   // Headers for security and performance
   async headers() {
     return [

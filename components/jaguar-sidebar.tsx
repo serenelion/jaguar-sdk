@@ -169,8 +169,8 @@ export function JaguarSidebar({ user }: { user: User | undefined }) {
           })}
         </div>
 
-        {/* Chat History - Only show when in chat module */}
-        {pathname.startsWith('/dashboard/chat') && (
+        {/* Chat History - Show when in chat module (both old and new routes) */}
+        {(pathname.startsWith('/dashboard/chat') || pathname.startsWith('/chat')) && (
           <div className="border-t border-gray-800 pt-4">
             <SidebarHistory user={user} />
           </div>

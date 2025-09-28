@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useActionState, useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { toast } from '@/components/toast';
 
 import { AuthForm } from '@/components/auth-form';
@@ -16,12 +16,8 @@ export default function Page() {
   const [email, setEmail] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
 
-  const [state, formAction] = useActionState<LoginActionState, FormData>(
-    login,
-    {
-      status: 'idle',
-    },
-  );
+  const [state, setState] = useState<LoginActionState>({ status: 'idle' });
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     if (state.status === 'failed') {
@@ -43,7 +39,11 @@ export default function Page() {
 
   const handleSubmit = (formData: FormData) => {
     setEmail(formData.get('email') as string);
-    formAction(formData);
+    startTransition(async () => {
+      setState({ status: 'in_progress' });
+      const result = await login({ status: 'idle' }, formData);
+      setState(result);
+    });
   };
 
   return (

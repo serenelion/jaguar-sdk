@@ -16,15 +16,15 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Development Server"
+args = "Production Server"
 
 [[workflows.workflow]]
-name = "Development Server"
+name = "Production Server"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run dev"
+args = "npm start -- -p 5000"
 waitForPort = 5000
 
 [workflows.workflow.metadata]
@@ -37,14 +37,6 @@ externalPort = 3000
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 8000
-externalPort = 8000
-
-[[ports]]
-localPort = 36735
-externalPort = 3002
 
 [deployment]
 deploymentTarget = "autoscale"

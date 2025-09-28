@@ -34,7 +34,8 @@ import {
   createResumableStreamContext,
   type ResumableStreamContext,
 } from 'resumable-stream';
-import { after } from 'next/server';
+// Note: 'after' from 'next/server' is only available in Next.js 15+
+// For Next.js 14 compatibility, we'll use a simple implementation
 import type { Chat } from '@/lib/db/schema';
 import { differenceInSeconds } from 'date-fns';
 import { ChatSDKError } from '@/lib/errors';
@@ -46,8 +47,14 @@ let globalStreamContext: ResumableStreamContext | null = null;
 function getStreamContext() {
   if (!globalStreamContext) {
     try {
+      // Create a simple waitUntil implementation for Next.js 14 compatibility
+      const waitUntil = (promise: Promise<any>) => {
+        // In Next.js 14, we just catch and log errors since 'after' is not available
+        promise.catch(error => console.error('Stream cleanup error:', error));
+      };
+      
       globalStreamContext = createResumableStreamContext({
-        waitUntil: after,
+        waitUntil,
       });
     } catch (error: any) {
       if (error.message.includes('REDIS_URL')) {

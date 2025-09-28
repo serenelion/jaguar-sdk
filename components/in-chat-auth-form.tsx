@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { register, type RegisterActionState } from '@/app/(auth)/actions';
 import { toast } from '@/components/toast';
 import { Input } from './ui/input';
@@ -20,10 +20,8 @@ export function InChatAuthForm({
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const [state, formAction] = useActionState<RegisterActionState, FormData>(
-    register,
-    { status: 'idle' },
-  );
+  const [state, setState] = useState<RegisterActionState>({ status: 'idle' });
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     if (state.status === 'user_exists') {
@@ -48,7 +46,11 @@ export function InChatAuthForm({
   const handleSubmit = async (formData: FormData) => {
     setIsLoading(true);
     setEmail(formData.get('email') as string);
-    formAction(formData);
+    startTransition(async () => {
+      setState({ status: 'in_progress' });
+      const result = await register({ status: 'idle' }, formData);
+      setState(result);
+    });
   };
 
   return (
